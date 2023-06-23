@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>The plot element</title>
+    <link href="index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <h1>Creation, edition and deletion of annotations</h1>
+    <p>
+      The annotation edition form is a simple web element.
+    </p>
+    <slam-annotation-form id="form"></slam-annotation-form>
+    <p id="results"></p>
+    <p>
+      By default, it does not know any channel type or annotation
+      classes. You need to <a href="#" onclick="return window.add_meta
+      ();">add them yourself</a>.
+    </p>
+    <script type="text/javascript" class="demo-script">
+      window.add_meta = () => {
+	  const form = document.getElementById ('form');
+	  form.add_annotation_class ('https://localhost/lytonepal#Pointe', 'Pointe');
+	  form.add_annotation_class ('https://localhost/lytonepal#Encoche', 'Encoche');
+	  // ...
+	  form.add_channel_type ('https://localhost/lytonepal#Fp1', 'Fp1');
+	  form.add_channel_type ('https://localhost/lytonepal#O1', 'O1');
+	  // ...
+	  return false; // bound to this page’s link onclick
+      };
+    </script>
+    <p>
+      The first thing that you will want to set in your annotation is
+      the start and stop times. You can enter them yourself in the ISO
+      date format, but it is way better to click on the plot to get
+      the dates. Since you can only set the start and stop dates one
+      after the other, the widget knows if it is expecting the user to
+      enter a date or not. Click
+
+      <a href="#" onclick="return window.set_date_now ();">here</a>
+
+      to simulate a click on the plot.
+    </p>
+    <script type="text/javascript" class="demo-script">
+      window.set_date_now = () => {
+	  const form = document.getElementById ('form');
+	  if (form.expectDate) {
+	      form.setDate (new Date (Date.now ()));
+	  }
+	  return false; // bound to this page’s link onclick
+      };
+    </script>
+    <p>
+      The next step is to select the annotation class and channel
+      location. When that’s done, you can enable or disable the save
+      and delete buttons as you wish.
+    </p>
+    <table>
+      <tr><th>Save button</th><th>Delete button</th></tr>
+      <tr>
+	<td>
+	  <a href="#" onclick="return window.enable_save_button ();">Enable</a>
+	</td>
+	<td>
+	  <a href="#" onclick="return window.enable_delete_button ();">Enable</a>
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <a href="#" onclick="return window.disable_save_button ();">Disable</a>
+	</td>
+	<td>
+	  <a href="#" onclick="return window.disable_delete_button ();">Disable</a>
+	</td>
+      </tr>
+    </table>
+    <script type="text/javascript" class="demo-script">
+      const enable_disable = (what, enabled_or_disabled) => {
+	  const form = document.getElementById ('form');
+	  if (what === 'save') {
+	      form.canSave = enabled_or_disabled;
+	  } else if (what === 'delete') {
+	      form.canDelete = enabled_or_disabled;
+	  }
+	  return false;
+      };
+      window.enable_save_button = () => {
+	  return enable_disable ('save', true);
+      };
+      window.enable_delete_button = () => {
+	  return enable_disable ('delete', true);
+      };
+      window.disable_save_button = () => {
+	  return enable_disable ('save', false);
+      };
+      window.disable_delete_button = () => {
+	  return enable_disable ('delete', false);
+      };
+    </script>
+    <p>
+      The form will emit events when the buttons are clicked. You can
+      listen to them.
+    </p>
+    <script type="text/javascript" class="demo-script">
+      (() => {
+	  const form = document.getElementById ('form');
+	  const results = document.getElementById ('results');
+	  form.addEventListener ('slam-save', (() => {
+	      const { start, duration, type, location } = form.value;
+	      results.replaceChildren ([]);
+	      results.appendChild (document.createTextNode (`
+You saved the annotation, starting at ${start.toString ()}, lasting
+for ${duration.toString ()} seconds, of type ${type}, and located on
+channels [${location.join (', ')}].`));
+	  }));
+	  form.addEventListener ('slam-delete', (() => {
+	      const { start, duration, type, location } = form.value;
+	      results.replaceChildren ([]);
+	      results.appendChild (document.createTextNode (`
+You deleted the annotation, starting at ${start.toString ()}, lasting
+for ${duration.toString ()} seconds, of type ${type}, and located on
+channels [${location.join (', ')}].`));
+	  }));
+	  form.addEventListener ('change', (() => {
+	      const { start, duration, type, location } = form.value;
+	      results.replaceChildren ([]);
+	      results.appendChild (document.createTextNode (`
+You edited the annotation, starting at ${start.toString ()}, lasting
+for ${duration.toString ()} seconds, of type ${type}, and located on
+channels [${location.join (', ')}].`));
+	  }));
+      })();
+    </script>
+  </body>
+</html>
+

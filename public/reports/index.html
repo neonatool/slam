@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Artifact detection reports</title>
+    <link href="index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <h1>Navigating through the artifacts</h1>
+    <slam-artifact-table id="table"></slam-artifact-table>
+    <p>
+      Let’s say you have a handful of detected artifacts.
+    </p>
+    <script type="text/javascript" class="demo-script">
+      (() => {
+	  const table = document.getElementById ('table');
+	  const start = new Date (Date.now ());
+	  table.data = [{
+	      'start': new Date (start),
+	      'duration': 20,
+	      'score': 0.2,
+	      'disagreement': 0.8
+	  }, {
+	      'start': new Date (start - 10000),
+	      'duration': 20,
+	      'score': 0.8,
+	      'disagreement': 0.2
+	  }, {
+	      'start': new Date (start - 20000),
+	      'duration': 20,
+	      'score': 0.8,
+	      'disagreement': 0.8
+	  }, {
+	      'start': new Date (start - 30000),
+	      'duration': 20,
+	      'score': 0.2,
+	      'disagreement': 0.2
+	  }];
+      }) ();
+    </script>
+    <p>
+      The artifact table widget lets you display them, and you can
+      sort the elements by clicking once or twice on the table header.
+    </p>
+    <p>
+      If you click on a row, the table will emit an event for the plot
+      window to adapt.
+    </p>
+    <p id="moves"></p>
+    <script type="text/javascript" class="demo-script">
+      (() => {
+	  const table = document.getElementById ('table');
+	  const moves = document.getElementById ('moves');
+	  table.addEventListener ('slam-move-window', ((ev) => {
+	      moves.replaceChildren ([]);
+	      moves.appendChild (document.createTextNode (`
+The plot window should go to ${ev.start.toString ()}, and the view
+duration is ${ev.duration} seconds.`));
+	  }));
+      }) ();
+    </script>
+  </body>
+</html>
+

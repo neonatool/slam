@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Play with EEG files</title>
+    <link href="index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <h1>First step: Load an EEG file!</h1>
+    <p>
+      EEG files, with the <em>.adf</em> extension, contain the raw
+      sensor data and any RDF metadata that we want. The first step is
+      for you to find such a file on your system and load it in!
+    </p>
+    <adf-file-picker id="file-picker"></adf-file-picker>
+    <h1>Second step: Browse the file metadata!</h1>
+    <p>
+      The EEG embeds different kinds of metadata. For instance, it
+      gives you the <em>start date</em> and <em>sampling
+      frequency</em> of the EEG.
+    </p>
+    <adf-metadata-summary source="file-picker"></adf-metadata-summary>
+    <p>
+      However, this is only an example. You can query whatever
+      metadata you want. For that, you need to specify
+      the <em>subject</em>, which can be the EEG
+      itself <code>&lt;&gt;</code>, and <em>predicate</em>, which must
+      be an IRI reference, such as:
+    </p>
+    <p>
+      <a href="https://localhost/lytonepal#start-date"
+	 >https://localhost/lytonepal#start-date</a>
+    </p>
+    <p>
+      This is the simplest data pattern that you can match against the
+      dataset, but there are others.
+    </p>
+    <adf-explorer source="file-picker"></adf-explorer>
+    <h1>Third step: Filter the sensor data!</h1>
+    <p>
+      Usually, only a small window of the data needs to be filtered at
+      once.
+    </p>
+    <p>
+      You would define the <em>start</em> and <em>stop</em>
+      dates of the EEG, the <em>low</em> and <em>high</em> cut-off
+      frequencies of the band-pass filter, and you would get a nice
+      view of the filtered signal.
+    </p>
+    <p>
+      Plotting the data is not the goal of this demonstration, so here
+      you just get the first 20 seconds of the data, filtered between
+      0.3 and 30 Hz, as a CSV file.
+    </p>
+    <adf-filter-demo source="file-picker"></adf-filter-demo>
+    <h1>Fourth step: Update the metadata!</h1>
+    <p>
+      Yes, you can add your own metadata to the EEG file. You must
+      simply set the <em>subject</em>, the <em>predicate</em> as an
+      IRI reference surrounded by angle brackets, and
+      the <em>object</em> in the N3 format.
+    </p>
+    <h2 id="uses">What does it mean to use an EEG for this
+    demonstration?</h2>
+    <p>
+      This example application uses a file. You just picked it in Step
+      1 of this document. You are browsing its data and metadata right
+      now.
+    </p>
+    <p>
+      For instance, if you wanted to insert in the file that it is
+      used in this demonstration program, you would set the following
+      information:
+    </p>
+    <ul>
+      <li>
+	the <em>subject</em> would be this application,
+	<code>&lt;<adf-demo-this-iri></adf-demo-this-iri>&gt;</code>;
+      </li>
+      <li>
+	the <em>predicate</em> would be the idea to use a
+	file <a href="#uses">as we defined it just
+	above</a>, <code>&lt;<adf-demo-uses-iri></adf-demo-uses-iri>&gt;</code>;
+      </li>
+      <li>
+	the <em>object</em> would be the thing that has been used, and
+	for simplicity reasons, we will declare that it
+	is <code>&lt;&gt;</code>.
+      </li>
+    </ul>
+    <adf-insert-demo source="file-picker"></adf-insert-demo>
+    <p>
+      You can also remove metadata from the file. More specifically,
+      you would mark some metadata to be obsolete, by setting an
+      expiration date flag. In most cases, the expiration date is the
+      current date, so you can leave it unset and it will do what you
+      want.
+    </p>
+    <p>
+      In this demonstration program, the deletion date is the date
+      when you clicked the delete button. Please note that in general,
+      if you request to delete a pattern with no subject, no
+      predicate, and no object, it means that you want to delete every
+      metadata of the file. Which is probably not what you want. As a
+      result, this demonstration program will not do anything if more
+      than one field is missing.
+    </p>
+    <adf-delete-demo source="file-picker"></adf-delete-demo>
+    <h1>Fifth step: Download the modified file!</h1>
+    <p>
+      Once you have modified the file, you can download it with the
+      new data inserted.
+    </p>
+    <adf-download source="file-picker"></adf-download>
+  </body>
+</html>
+

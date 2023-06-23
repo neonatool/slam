@@ -1,0 +1,5 @@
+#!/bin/sh
+
+VERSION=$(echo $CI_COMMIT_TAG | sed 's/^v//g')
+
+sed -i "s/\"version\": \"0.1.0\"/\"version\": \"$VERSION\"/g" package.json

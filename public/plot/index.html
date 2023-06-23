@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>The plot element</title>
+    <link href="index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="demo.js"></script>
+  </head>
+  <body onresize="document.getElementById('plot').replot()">
+    <h1>The plot element</h1>
+    <p>
+      The plot element is a web component that can display an
+      EEG. Here it represents the generated EEG.
+    </p>
+    <adf-plot id="plot"></adf-plot>
+    <adf-annotation-demo source="plot"></adf-annotation-demo>
+    <p>
+      Notice that this is a web component, and that the plot lives in
+      a shadow DOM. I did this by adding the
+      CSS <a href="https://codepen.io/dbluhm/pen/ZEOwjVK">found
+      somewhere on the web</a>. I suspect the click drift is a
+      limitation of this hack: when the user clicks the plot, the
+      click event is fired for an index slightly different from where
+      the user actually clicked (it gets annoying when adding
+      annotations).
+    </p>
+    <h1>How to use the plot element</h1>
+    <p>
+      Start by importing the package. It adds the custom element
+      class <code>Plot</code> and the <code>ChannelType</code> class
+      to your environment. You may not use the former at all, but the
+      latter is required to link data and annotations together.
+    </p>
+    <p>
+      Create a new <code>ChannelType</code> for each channel and
+      bipolar reference you might use. The <code>ChannelType</code>
+      constructor takes 3 or 5 arguments.
+    </p>
+    <ol>
+      <li>
+	The first argument is its identifier. It can be anything, but
+	comparing two channel type identifiers by
+	calling <code>id.toString ()</code> and comparing the
+	resulting strings with the equality operator <code>==</code>
+	should detect whether the identifiers are the same.
+      </li>
+      <li>
+	Then, pass the name as a string. Something lik "C3-Fp1".
+      </li>
+      <li>
+	The third argument must be <code>true</code> if the channel
+	type identifies an EEG, <code>false</code> otherwise. An EEG
+	channel will display the channels with the correct amplitude
+	scale, even in the presence of a movement artifact.
+      </li>
+      <li>
+	The fourth argument is the anode. It must be
+	a <code>ChannelType</code> or a falsey value. If the channel
+	is not a bipolar reference, don’t set it.
+      </li>
+      <li>
+	The last argument is the cathode.
+      </li>
+    </ol>
+    <p>
+      The <code>ChannelType</code> objects are then used to feed data
+      and annotations to the plot. To do that, first get the plot
+      element, for instance by
+      calling <code>document.getElementById</code>, and then you can
+      call its API.
+    </p>
+    <p>
+      First, call the <code><var>plot</var>.<strong>prepare</strong>
+      (<var>sampling_frequency</var>, <var>channels</var>)</code>
+      method. The <var>sampling_frequency</var> is required because
+      all channels must be synchronized in
+      time. The <var>channels</var> is the list of channels that you
+      want to display, as an array. It will most likely be the bipolar
+      references.
+    </p>
+    <p>
+      By calling the <code><strong>prepare</strong></code> methode,
+      empty time series will be created within the plot. The next step
+      is for you to fetch the data, and then
+      call <code><var>plot</var>.<strong>set_series_data</strong>
+      (<var>channel</var>, <var>start_index</var>, <var>value</var>)</code>
+      with <var>channel</var> being the channel identifier for the
+      series (which must be the same as one of the elements of the
+      array passed to <code>prepare</code>),
+      the <var>start_index</var> as the index of the first
+      observation, and <var>value</var> as a typed array
+      (<code>Float64Array</code>) containing the series values.
+    </p>
+    <p>
+      You can change the display order by permuting the channel types,
+      but you must not forget any nor introduce new
+      ones. Call <code><var>plot</var>.<strong>reorder</strong>
+      (<var>channels</var>)</code> with <var>channels</var> bound to
+      the permuted array of channels.
+    </p>
+    <p>
+      Each annotation is manipulated by an identifier. Like channel
+      type identifiers, annotation identifiers are compared for
+      equality by the results of their <code>toString ()</code> method
+      value.
+    </p>
+    <ul>
+      <li>
+	<code><var>plot</var>.<strong>add_annotation</strong>
+	  (<var>id</var>)</code> and
+	<code><var>plot</var>.<strong>remove_annotation</strong>
+	  (<var>id</var>)</code> let you specify which annotations are
+	  displayed.
+      </li>
+      <li>
+	<code><var>plot</var>.<strong>change_annotation_label</strong>
+	  (<var>id</var>, <var>label</var>)</code> changes the label
+	  that is displayed above the annotation.
+      </li>
+      <li>
+	<code><var>plot</var>.<strong>change_annotation_start_index</strong>
+	  (<var>id</var>, <var>start_index</var>)</code> and
+	<code><var>plot</var>.<strong>change_annotation_length</strong>
+	  (<var>id</var>, <var>length</var>)</code> change the point
+	  in time where the annotation is
+	  found. <var>start_index</var> must be an index,
+	  and <var>length</var> a number of samples.
+      </li>
+      <li>
+	<code><var>plot</var>.<strong>add_annotation_channel</strong>
+	  (<var>id</var>, <var>channel</var>)</code> and
+	<code><var>plot</var>.<strong>remove_annotation_channel</strong>
+	  (<var>id</var>, <var>channel</var>)</code> change the list
+	  of channels the annotation is present in. You can pass
+	  single electrodes (as opposed to bipolar references) even if
+	  bipolar references are displayed.
+      </li>
+    </ul>
+    <p>
+      Finally, for the changes to take effect, you must
+      call <code><var>plot</var>.<strong>replot</strong>
+      ()</code>. You must also call this if the window is resized.
+    </p>
+    <p>
+      Now that your plot is set up, you can listen for events. There
+      are currently 3.
+    </p>
+    <ul>
+      <li>
+	The <code>slam-click</code> event is fired when the plot is
+	clicked. The <code>time</code> property is the index (on the
+	global X axis) where the plot is clicked.
+      </li>
+      <li>
+	The <code>slam-move-window</code> event is fired when new
+	data is requested. The <code>start_index</code> holds the
+	index of the first point seen in the window,
+	and <code>length</code> contains the number of points in the
+	window. Convert indices to dates with the EEG start date and
+	sampling frequency (this is not the responsibility of the
+	plot), then, query the file for filtered data for all of the
+	displayed bipolar references, and then
+	call <code><var>plot</var>.<strong>set_series_data</strong></code>
+	when you have the data. Do not forget to
+	call <code><var>plot</var>.<strong>replot</strong> ()</code>
+	to update the plot.
+      </li>
+      <li>
+	The <code>slam-select-filter</code> event is fired when the
+	user wishes to use different filter parameters. The event is
+	fired when an individual channel filter changes, or exactly
+	once if the filter parameters are
+	reset. Its <code>updates</code> property is an array of
+	changes. Each change has three useful properties,
+	the <code>low</code> &lt; <code>high</code> cut-off frequency
+	(respectively, of the the high-pass and low-pass filter), and
+	the <code>channel</code> which is the channel type value. You
+	can also get all the filter values by getting
+	the <code>filter</code> property. Expect a dictionary of
+	string channel IDs to filter
+	properties. <span id="report-filter-changes"></span>
+      </li>
+    </ul>
+    <script type="text/javascript">
+      const element = document.getElementById('plot');
+      const dest = document.getElementById('report-filter-changes');
+      const {low, high} = element.filter['https://localhost/lytonepal#C3-Fp1'];
+      dest.appendChild (document.createTextNode (`The filter value for C3-Fp1 is currently the [${low} Hz, ${high} Hz] band-pass filter.`));
+      element.addEventListener ('slam-select-filter', ev => {
+	  dest.replaceChildren ([]);
+	  const now = new Date (Date.now ());
+	  for (const upd of ev.updates) {
+	      dest.appendChild (document.createTextNode (`The filter for ${upd.channel.id.toString ()} was changed ${now}, it is now the [${upd.low} Hz, ${upd.high} Hz] band-pass filter.`));
+	  }
+      });
+    </script>
+    <p>
+      If you wish to change the view,
+      call <code><var>plot</var>.<strong>move_to</strong>
+      (<var>index</var>)</code> to set the first index that is visible
+      in the plot.
+    </p>
+  </body>
+</html>
+

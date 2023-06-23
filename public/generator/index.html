@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Generate an EEG</title>
+    <link href="index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <h1>Introduction</h1>
+    <p>
+      <a href="https://plmlab.math.cnrs.fr/neonatool/bevue/bevue-app">Slam</a>
+      is a web application to read and annotate ElectroEncephaloGraphy
+      data. It is meant to be used by clinicians to indicate
+      biomarkers that are usually searched to diagnose anoxo-ischemy.
+    </p>
+    <h1>Problem</h1>
+    <p>
+      To show how the application works, we need an EEG file. However,
+      those are very hard to find, because they are primarily medical
+      data about real people.
+    </p>
+    <p>
+      An EEG is very complex to read, especially because of noise, and
+      because the biomarkers are very tiny patterns. Even if we had
+      such an EEG, the merits of slam would be forgotten as the
+      clinicians would debate about whether the biomarkers is present
+      or not.
+    </p>
+    <h1>Generating a toy EEG</h1>
+    <p>
+      I think the time has come to generate a comically-simple EEG. To
+      avoid debates, it will last for 20 seconds. The background of
+      the EEG will be sine waves with a frequency of 0.9 Hz, and an
+      amplitude of 15 μV.
+    </p>
+    <p>
+      Between seconds 10 and 15, there will be a "movement artifact",
+      and by that we mean that the signal will be multiplied by 5
+      during that period of time.
+    </p>
+    <p>
+      Finally, a few <em>pointes</em> and <em>encoches</em> will be
+      sprinkled here and there: pointes at seconds 2, 3 and 16 on O2,
+      at time 7 on O1, and encoches at seconds 4 and 5 on Fp1, 18 on
+      Fp2.
+    </p>
+    <h2>What is a pointe?</h2>
+    <p>
+      This biomarker is a 0.1-second spike of -20 μV. We model it by a
+      triangle with a peak at 0.05 seconds.
+    </p>
+    <h2>What is an encoche?</h2>
+    <p>
+      This is a simple polygon that lasts for 0.4 seconds. It starts
+      at 0 V, then at 0.1 seconds it is 20 μV, at 0.3 seconds it jumps
+      to -20 μV, and finally at 0.4 seconds it is back to 0 V.
+    </p>
+    <h1>Download your EEG!</h1>
+    <p>
+      <adf-generate></adf-generate>
+    </p>
+  </body>
+</html>
+
