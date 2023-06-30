@@ -1,4 +1,4 @@
-import AdftoolLoader from '@neonatool/adftool';
+import AdftoolLoader from '../adftool.mjs';
 
 const Adftool = AdftoolLoader ();
 

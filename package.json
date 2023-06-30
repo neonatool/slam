@@ -4,7 +4,6 @@
   "description": "SLAM",
   "main": "index.mjs",
   "dependencies": {
-    "@neonatool/adftool": "^0.7.2",
     "plotly.js-dist-min": ">=2.11.1",
     "rdflib": "^2.2.32",
     "buffer": ">=6.0.3",
@@ -16,7 +15,7 @@
   },
   "scripts": {
     "build": "(cd data && python3 tojs.py && python3 document.py) && node build.mjs",
-    "check": "node test/model/data-proxy.mjs && node test/model/data-task.mjs && node test/model/filter-proxy.mjs && node test/model/filter-task.mjs && node test/lazy_array.mjs",
+    "check": "node test/model/data-proxy.mjs && node test/model/data-task.mjs && node test/model/filter-proxy.mjs && node test/model/filter-task.mjs && node test/lazy_array.mjs && node test/adftool.mjs",
     "serve": "http-server -c-1"
   },
   "author": "vivien.kraus@univ-reims.fr",

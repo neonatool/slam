@@ -1,4 +1,4 @@
-import AdftoolLoader from '@neonatool/adftool';
+import AdftoolLoader from '../../src/adftool.mjs';
 import EEG from '../../src/model/data-task.mjs';
 
 if (typeof atob === 'undefined' || typeof btoa === 'undefined') {

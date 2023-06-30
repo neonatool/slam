@@ -1,5 +1,5 @@
 import LazyArray from '../lazy_array.mjs';
-import AdftoolLoader from '@neonatool/adftool';
+import AdftoolLoader from '../adftool.mjs';
 
 // Here is how the worker communicates with the calling thread:
 
