@@ -1,0 +1,176 @@
+from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib.namespace import RDFS, RDF, OWL
+from xml.sax.saxutils import escape, quoteattr
+
+DCTERMS = Namespace('http://purl.org/dc/terms/')
+
+for ontology in ['./lytonepal.ttl', './lytonepal-projects.ttl']:
+    g = Graph().parse(ontology)
+    turtle_whole = ''
+    with open(ontology, 'r') as f:
+        turtle_whole = f.read()
+    turtle_str = escape(turtle_whole)
+    base = g.absolutize(ontology)
+    things = set([])
+    things_order = []
+    for s, p, o in g:
+        if s not in things:
+            things.add(s)
+            things_order.append(s)
+    things_order = sorted(things_order)
+    for additional_context in ['./rdf.ttl',
+                               './rdfs.ttl',
+                               './doap.rdf',
+                               './owl.ttl',
+                               './intl.ttl',
+                               './foaf.rdf',
+                               './bio.rdf',
+                               './simple-inference.ttl']:
+        g.parse(additional_context)
+    for indirect, inverse_of, direct in g.triples((None, OWL.inverseOf, None)):
+        g.add((direct, OWL.inverseOf, indirect))
+        for s, p, o in g.triples((None, direct, None)):
+            g.add((o, indirect, s))
+        for s, p, o in g.triples((None, indirect, None)):
+            g.add((o, direct, s))
+    def relativize(iri):
+        # I can’t believe rdflib does not propose a correct version of
+        # this algorithm
+        if iri.startswith(base + '#'):
+            return iri.removeprefix(base)
+        else:
+            return iri
+    def get_localized(language, iri, prop):
+        default_values = []
+        localized_values = []
+        for s, p, o in g.triples((iri, prop, None)):
+            if isinstance(o, Literal):
+                if o.language is None or o.language.startswith('en'):
+                    default_values.append(o.value)
+                elif o.language.startswith(language):
+                    localized_values.append(o.value)
+        if len(localized_values) == 0:
+            return default_values
+        return localized_values
+    def get_label_like(language, thing, prop):
+        values = get_localized(language, thing, prop)
+        if len(values) == 0:
+            if isinstance(thing, Literal):
+                return thing.value
+            return relativize(thing)
+        elif len(values) == 1:
+            return values[0]
+        else:
+            return values[0] + ' (' + ', '.join(values[1:]) + ')'
+    def get_title(language, thing):
+        return get_label_like(language, thing, DCTERMS.title)
+    def get_descriptions(language, thing):
+        return get_localized(language, thing, DCTERMS.description)
+    def get_label(language, thing):
+        return get_label_like(language, thing, RDFS.label)
+    def get_comments(language, iri):
+        return get_localized(language, iri, RDFS.comment)
+    def get_types(language, iri):
+        types = []
+        for s, p, o in g.triples((iri, RDF.type, None)):
+            if o != RDFS['Class']:
+                xml = ('<a href={}>{}</a>'
+                       .format(quoteattr(relativize(o)),
+                               get_label(language, o)))
+                types.append(xml)
+        return types
+    def document_thing(output, language, iri):
+        if isinstance(iri, URIRef) and iri.startswith(base + '#'):
+            anchor = iri.removeprefix(base + '#')
+            output.write('<h2 id={}>'.format(quoteattr(anchor)))
+        else:
+            output.write('<h2>')
+        output.write(escape(get_label(language, iri)))
+        types = get_types(language, iri)
+        if len(types) != 0:
+            if language == 'fr':
+                output.write(' de type ')
+            else:
+                output.write(' a ')
+            output.write(', '.join(types))
+        output.write('</h2>')
+        for comment in get_comments(language, iri):
+            output.write('<p>{}</p>'.format(comment))
+        predicates = set([])
+        predicates_order = []
+        for s, p, o in g.triples((iri, None, None)):
+            if (p != RDF.type and p != RDFS.label
+                and p != RDFS.comment and p not in predicates):
+                predicates.add(p)
+                predicates_order.append(p)
+        predicates_order = sorted(predicates_order)
+        for p in predicates_order:
+            objects = []
+            for s, pp, o in g.triples((iri, p, None)):
+                if isinstance(o, Literal):
+                    value = str(o.toPython())
+                    objects.append('<span xml:lang="{}">{}</span>'
+                                   .format(o.language, escape(value)))
+                elif isinstance(o, URIRef):
+                    objects.append('<a href={}>{}</a>'
+                                   .format(quoteattr(relativize(o)),
+                                           get_label(language, o)))
+            if len(objects) == 0:
+                # only blank nodes
+                pass
+            else:
+                output.write('<div class="property">')
+                output.write('<h3>')
+                output.write('<a href={}>{}</a>'
+                             .format(quoteattr(relativize(p)),
+                                     get_label(language, p)))
+                output.write('</h3>')
+                if len(objects) == 1:
+                    output.write('<span>{}</span>'.format(objects[0]))
+                else:
+                    output.write('<ul><li>{}</li></ul>'.format(
+                        '</li><li>'.join(objects)))
+                output.write('</div>')
+    for language in ['fr', 'en']:
+        title = get_title(language, base)
+        descriptions = get_descriptions(language, base)
+        description = ''
+        if len(descriptions) > 0:
+            description = (
+                '<p>'
+                + '</p><p>'.join([
+                    escape(description)
+                    for description in descriptions
+                ])
+                + '</p>')
+        with open('../public/ontology/{}.{}.html'.format(ontology.removesuffix('.ttl'), language), 'w') as output:
+            output.write('<?xml version="1.0" encoding="utf-8"?>\n')
+            output.write('\
+<html xmlns="http://www.w3.org/1999/xhtml" \
+  xml:lang="{}" \
+  lang="{}">\
+<head>\
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\
+<link rel="icon" href="lytonepal.svg"/>\
+<style type="text/css">\
+html {{ background-color: aliceblue }}\
+body {{ max-width: 60em ; margin: auto ; background-color: white ; padding: 1.5em ; border-left: 2px solid grey ; border-right: 1px solid grey }}\
+img {{ width: 100% ; }}\
+h3 {{ display: inline ; padding-right: 1em ; }}\
+h2 {{ margin-top: 5ex ; background-color: aliceblue ; padding: 1ex 1em .5ex 1em ; border-top: 1px solid grey}}\
+.property {{ margin-left: 3em ; }}\
+</style>\
+<title>{}</title>\
+</head>\
+<body>\
+<h1>{}</h1>\
+{}'.format(language, language, title, title, description))
+            output.write('\
+<script type="text/turtle">\n\
+{}\n\
+</script>\n'.format(turtle_str))
+            for thing in things_order:
+                if thing != base:
+                    document_thing(output, language, thing)
+            output.write('</body></html>')
+            

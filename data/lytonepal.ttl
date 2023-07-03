@@ -1,0 +1,840 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix bio: <http://purl.org/vocab/bio/0.1/> .
+
+<> a owl:Ontology ;
+dcterms:title "Lytonepal"@en, "Lytonepal"@fr ;
+dcterms:description
+"The Lytonepal cohort vocabulary."@en,
+"Le vocabulaire de la cohorte Lytonepal."@fr ;
+vann:preferredNamespacePrefix "lytonepal" ;
+vann:preferredNamespaceURI <#> .
+
+<#Epoch> a rdfs:Class ;
+rdfs:comment
+"A continuous time period, in the context of an EEG."@en,
+"Une période temporelle continue, dans le contexte d’un EEG."@fr ;
+rdfs:label "Epoch"@en, "Époque"@fr .
+
+<#start-date> a rdf:Property ;
+rdfs:comment
+"Indicate the date when the epoch started."@en,
+"Indique la date à laquelle l’époque a commencé."@fr ;
+rdfs:label "start date"@en, "date de début"@fr ;
+rdfs:domain <#Epoch> ;
+rdfs:range rdfs:Literal .
+
+<#duration> a rdf:Property ;
+rdfs:comment
+"Indicate the duration of the epoch."@en,
+"Indique la durée de l’époque."@fr ;
+rdfs:label "duration"@en, "durée"@fr ;
+rdfs:domain <#Epoch> ;
+rdfs:range rdfs:Literal .
+
+<#DiscreteSignal> a rdfs:Class ;
+rdfs:comment
+"A signal sampled at regular intervals."@en,
+"Un signal échantillonné à intervalle régulier."@fr ;
+rdfs:label "Discrete signal"@en, "Signal discret"@fr .
+
+<#sampling-frequency> a rdf:Property ;
+rdfs:comment
+"Indicate the sampling frequency, in Hertz, of the signal."@en,
+"Indique la fréquence d’échantillonnage, en Hertz, du signal."@fr ;
+rdfs:label "sampling frequency"@en, "fréquence d’échantillonnage"@fr ;
+rdfs:domain <#DiscreteSignal> ;
+rdfs:range rdfs:Literal .
+
+<#EEG> a rdfs:Class ;
+rdfs:subClassOf <#Epoch> ;
+rdfs:subClassOf <#DiscreteSignal> ;
+rdfs:comment
+"Encapsulate a file containing one continuous recording of a patient."@en,
+"Encapsule un fichier contenant un enregistrement continu d’un patient."@fr ;
+rdfs:label "EEG"@en, "EEG"@fr .
+
+<#has-annotation> a rdf:Property ;
+rdfs:comment
+"Add an annotation localized in time and space to the EEG."@en,
+"Ajoute une annotation localisée dans le temps et dans l’espace à l’EEG."@fr ;
+rdfs:label "has annotation"@en, "a pour annotation"@fr ;
+rdfs:domain <#EEG> ;
+rdfs:range <#Annotation> ;
+owl:inverseOf <#occurs-in> .
+
+<#occurs-in> a rdf:Property ;
+rdfs:comment
+"Find which EEG this annotation occurs in."@en,
+"Indique dans quel EEG cette annotation survient."@fr ;
+rdfs:label "occurs in"@en, "survient dans"@fr ;
+rdfs:domain <#Annotation> ;
+rdfs:range <#EEG> .
+
+<#csv-type> a rdf:Property ;
+rdfs:comment
+"When the annotations are saved in CSV format, they need an identifier, such as 'artefact_mouvement'."@en,
+"Sauver les annotations sont sauvées au format CSV requiert un identifiant, comme « artefact_mouvement »."@fr ;
+rdfs:label "CSV type"@en, "type CSV"@fr ;
+rdfs:domain <#Class> .
+
+<#Annotation> a rdfs:Class ;
+rdfs:subClassOf <#Epoch> ;
+rdfs:comment
+"Annotation limited in duration and space, to indicate further or inferred knowledge in the EEG."@en,
+"Annotation limitée en durée et en espace, indiquant des connaissances supplémentaires ou inférées dans l’EEG."@fr ;
+rdfs:label "Annotation"@en, "Annotation"@fr ;
+<#csv-type> "???" .
+
+<#MovementArtefact> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"Time window where the subject moved, leading to an artifact in the recording."@en,
+"Fenêtre temporelle pendant laquelle le sujet a bougé, provoquant un artéfact d’enregistrement."@fr ;
+rdfs:label "Movement Artefact"@en, "Artéfact Mouvement"@fr ;
+<#csv-type> "artefact_mouvement" .
+
+<#NonArtefact> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"EEG segment that does not contain any artifact."@en,
+"Segment d’EEG qui ne contient aucun artéfact."@fr ;
+rdfs:label "Non Artefact"@en, "Non Artéfact"@fr ;
+<#csv-type> "non_artefact_mouvement" .
+
+<#Pointe> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Spike"@en, "Pointe"@fr ;
+<#csv-type> "pointe" .
+
+<#MyogramArtefact> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Myogram Artefact"@en, "Artéfact Myogramme"@fr ;
+<#csv-type> "artefact_myogramme" .
+
+<#ThetaTemporal> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Theta Temporal"@en, "Thêta Temporal"@fr ;
+<#csv-type> "theta_temporal" .
+
+<#Alpha> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Alpha"@en, "Alpha"@fr ;
+<#csv-type> "alpha" .
+
+<#Encoche> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Encoche"@en, "Encoche"@fr ;
+<#csv-type> "encoche" .
+
+<#PPR> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Pointes Positives Rolandiques"@en, "Pointes Positives Rolandiques"@fr ;
+<#csv-type> "PPR" .
+
+<#TraceContinu> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Tracé continu"@en, "Tracé continu"@fr ;
+<#csv-type> "trace_continu" .
+
+<#TraceDiscontinu> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Tracé discontinu"@en, "Tracé discontinu"@fr ;
+<#csv-type> "trace_discontinu" .
+
+<#Bouffee> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Bouffée"@en, "Bouffée"@fr ;
+<#csv-type> "bouffee" .
+
+<#TraceBasVoltage> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Tracé bas voltage"@en, "Tracé bas voltage"@fr ;
+<#csv-type> "trace_bas_voltage" .
+
+<#STOPS> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Sharp Theta occipital of premature infants"@en, "Activité thêta aigue occipitale"@fr ;
+<#csv-type> "stops" .
+
+<#TOA-SW> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Theta occipital activity with slow waves"@en, "Activité thêta occipitale avec ondes lentes"@fr ;
+<#csv-type> "toasw" .
+
+<#ThetaFrontal> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Theta frontal activity"@en, "Activité thêta frontale"@fr ;
+<#csv-type> "theta_frontal" .
+
+<#OndesLentesDelta> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Slow Delta Waves"@en, "Ondes Lentes Delta"@fr ;
+<#csv-type> "ondes_lentes_delta" .
+
+<#DeltaBrushes> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Delta Brushes"@en, "Delta Brushes"@fr ;
+<#csv-type> "delta_brushes" .
+
+<#MechanicalBrushes> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Mechanical Brushes"@en, "Mechanical Brushes"@fr ;
+<#csv-type> "mechanical_brushes" .
+
+<#BIRD> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "BIRD"@en, "Brève Décharge Rythmique Intermittente"@fr ;
+<#csv-type> "bird" .
+
+<#PLED> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "PLED"@en, "Décharge Épileptiforme Périodique"@fr ;
+<#csv-type> "pled" .
+
+<#Crise> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "Seizure"@en, "Crise"@fr ;
+<#csv-type> "crise" .
+
+<#EtatDeMal> a rdfs:Class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:label "État de mal"@en, "État de mal"@fr ;
+<#csv-type> "etat_de_mal" .
+
+<#Channel> a rdfs:Class ;
+rdfs:comment
+"The set of things that are a channel in an EEG. We will abuse the definition to describe a specific channel in a known montage."@en,
+"L’ensemble des éléments qui sont un canal dans un EEG. Nous ferons un abus de définition pour parler d’un canal spécifique dans un montage connu."@fr ;
+rdfs:label "Channel"@en, "Canal"@fr .
+
+<#EEGChannel> a rdfs:Class ;
+rdfs:subClassOf <#Channel> ;
+rdfs:comment
+"The set of things that are produced by an EEG electrode in an EEG file."@en,
+"L’ensemble des éléments qui sont produits par une électrode EEG dans un fichier EEG."@fr ;
+rdfs:label "EEG Channel"@en, "Canal EEG"@fr .
+
+<#ECG> a <#Channel> ;
+rdfs:comment
+"The set of channels in an EEG file that represent the electrocardiography."@en,
+"L’ensemble des canaux dans un fichier EEG qui représentent l’électroencéphalogramme."@fr ;
+rdfs:label "ECG"@en, "ECG"@fr ;
+<#has-mne-type> "ecg" .
+
+<#Fp1> a <#EEGChannel> ;
+rdfs:comment
+"Left frontal EEG channel."@en,
+"Canal EEG frontal gauche."@fr ;
+rdfs:label "Fp1"@en, "Fp1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fz> a <#EEGChannel> ;
+rdfs:comment
+"center frontal EEG channel."@en,
+"Canal EEG frontal central."@fr ;
+rdfs:label "Fz"@en, "Fz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fp2> a <#EEGChannel> ;
+rdfs:comment
+"Right frontal EEG channel."@en,
+"Canal EEG frontal droit."@fr ;
+rdfs:label "Fp2"@en, "Fp2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#C3> a <#EEGChannel> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "C3"@en, "C3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Cz> a <#EEGChannel> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "Cz"@en, "Cz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#C4> a <#EEGChannel> ;
+rdfs:comment
+"???"@en,
+"???"@fr ;
+rdfs:label "C4"@en, "C4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O1> a <#EEGChannel> ;
+rdfs:comment
+"Left occipital (back) EEG channel."@en,
+"Canal EEG occipital (arrière) gauche."@fr ;
+rdfs:label "O1"@en, "O1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Pz> a <#EEGChannel> ;
+rdfs:comment
+"Center parietal EEG channel."@en,
+"Canal EEG pariétal central."@fr ;
+rdfs:label "Pz"@en, "Pz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O2> a <#EEGChannel> ;
+rdfs:comment
+"Right occipital (back) EEG channel."@en,
+"Canal EEG occipital (arrière) droit."@fr ;
+rdfs:label "O2"@en, "O2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T3> a <#EEGChannel> ;
+rdfs:comment
+"Left temporal EEG channel."@en,
+"Canal EEG temporal gauche."@fr ;
+rdfs:label "T3"@en, "T3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T4> a <#EEGChannel> ;
+rdfs:comment
+"Right temporal EEG channel."@en,
+"Canal EEG temporal droit."@fr ;
+rdfs:label "T4"@en, "T4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#BipolarReference> a rdfs:Class ;
+rdfs:subClassOf <#Channel> ;
+rdfs:comment
+"A channel after computing bipolar references."@en,
+"Un canal après calcul des références bipolaires."@fr ;
+rdfs:label "Bipolar Reference"@en, "Référence Bipolaire"@fr .
+
+<#anode> a rdf:Property ;
+rdfs:comment
+"Specify the bipolar reference anode."@en,
+"Spécifie l’anode de la référence bipolaire."@fr ;
+rdfs:label "anode"@en, "anode"@fr ;
+rdfs:domain <#BipolarReference> ;
+rdfs:range <#Channel> ;
+owl:inverseOf <#anode-of> .
+
+<#anode-of> a rdf:Property ;
+rdfs:comment
+"Indicate which bipolar references uses this as an anode."@en,
+"Indique quelles références bipolaires utilisent ceci comme anode."@fr ;
+rdfs:label "anode of"@en, "anode de"@fr ;
+rdfs:domain <#Channel> ;
+rdfs:range <#BipolarReference> .
+
+<#cathode> a rdf:Property ;
+rdfs:comment
+"Specify the bipolar reference cathode."@en,
+"Spécifie l’cathode de la référence bipolaire."@fr ;
+rdfs:label "cathode"@en, "cathode"@fr ;
+rdfs:domain <#BipolarReference> ;
+rdfs:range <#Channel> ;
+owl:inverseOf <#cathode-of> .
+
+<#cathode-of> a rdf:Property ;
+rdfs:comment
+"Indicate which bipolar references uses this as an cathode."@en,
+"Indique quelles références bipolaires utilisent ceci comme cathode."@fr ;
+rdfs:label "cathode of"@en, "cathode de"@fr ;
+rdfs:domain <#Channel> ;
+rdfs:range <#BipolarReference> .
+
+<#C3-Fp1> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The C3 - Fp1 bipolar reference."@en,
+"La référence bipolaire C3 - Fp1."@fr ;
+<#anode> <#C3> ;
+<#cathode> <#Fp1> ;
+rdfs:label "C3-Fp1"@en, "C3-Fp1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fp1-C3> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Fp1 - C3 bipolar reference."@en,
+"La référence bipolaire Fp1 - C3."@fr ;
+<#anode> <#Fp1> ;
+<#cathode> <#C3> ;
+rdfs:label "Fp1-C3"@en, "Fp1-C3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O1-C3> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The O1 - C3 bipolar reference."@en,
+"La référence bipolaire O1 - C3."@fr ;
+<#anode> <#O1> ;
+<#cathode> <#C3> ;
+rdfs:label "O1-C3"@en, "O1-C3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#C3-O1> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The C3 - O1 bipolar reference."@en,
+"La référence bipolaire C3 - O1."@fr ;
+<#anode> <#C3> ;
+<#cathode> <#O1> ;
+rdfs:label "C3-O1"@en, "C3-O1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O1-T3> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The O1 - T3 bipolar reference."@en,
+"La référence bipolaire O1 - T3."@fr ;
+<#anode> <#O1> ;
+<#cathode> <#T3> ;
+rdfs:label "O1-T3"@en, "O1-T3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T3-O1> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The T3 - O1 bipolar reference."@en,
+"La référence bipolaire T3 - O1."@fr ;
+<#anode> <#T3> ;
+<#cathode> <#O1> ;
+rdfs:label "T3-O1"@en, "T3-O1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T3-Fp1> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The T3 - Fp1 bipolar reference."@en,
+"La référence bipolaire T3 - Fp1."@fr ;
+<#anode> <#T3> ;
+<#cathode> <#Fp1> ;
+rdfs:label "T3-Fp1"@en, "T3-Fp1"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fp1-T3> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Fp1 - T3 bipolar reference."@en,
+"La référence bipolaire Fp1 - T3."@fr ;
+<#anode> <#Fp1> ;
+<#cathode> <#T3> ;
+rdfs:label "Fp1-T3"@en, "Fp1-T3"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Cz-Fz> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Cz - Fz bipolar reference."@en,
+"La référence bipolaire Cz - Fz."@fr ;
+<#anode> <#Cz> ;
+<#cathode> <#Fz> ;
+rdfs:label "Cz-Fz"@en, "Cz-Fz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fz-Cz> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Fz - Cz bipolar reference."@en,
+"La référence bipolaire Fz - Cz."@fr ;
+<#anode> <#Fz> ;
+<#cathode> <#Cz> ;
+rdfs:label "Fz-Cz"@en, "Fz-Cz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Pz-Cz> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Pz - Cz bipolar reference."@en,
+"La référence bipolaire Pz - Cz."@fr ;
+<#anode> <#Pz> ;
+<#cathode> <#Cz> ;
+rdfs:label "Pz-Cz"@en, "Pz-Cz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Cz-Pz> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Cz - Pz bipolar reference."@en,
+"La référence bipolaire Cz - Pz."@fr ;
+<#anode> <#Cz> ;
+<#cathode> <#Pz> ;
+rdfs:label "Cz-Pz"@en, "Cz-Pz"@fr ;
+<#has-mne-type> "eeg" .
+
+<#C4-Fp2> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The C4 - Fp2 bipolar reference."@en,
+"La référence bipolaire C4 - Fp2."@fr ;
+<#anode> <#C4> ;
+<#cathode> <#Fp2> ;
+rdfs:label "C4-Fp2"@en, "C4-Fp2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fp2-C4> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Fp2 - C4 bipolar reference."@en,
+"La référence bipolaire Fp2 - C4."@fr ;
+<#anode> <#Fp2> ;
+<#cathode> <#C4> ;
+rdfs:label "Fp2-C4"@en, "Fp2-C4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O2-C4> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The O2 - C4 bipolar reference."@en,
+"La référence bipolaire O2 - C4."@fr ;
+<#anode> <#O2> ;
+<#cathode> <#C4> ;
+rdfs:label "O2-C4"@en, "O2-C4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#C4-O2> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The C4 - O2 bipolar reference."@en,
+"La référence bipolaire C4 - O2."@fr ;
+<#anode> <#C4> ;
+<#cathode> <#O2> ;
+rdfs:label "C4-O2"@en, "C4-O2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#O2-T4> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The O2 - T4 bipolar reference."@en,
+"La référence bipolaire O2 - T4."@fr ;
+<#anode> <#O2> ;
+<#cathode> <#T4> ;
+rdfs:label "O2-T4"@en, "O2-T4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T4-O2> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The T4 - O2 bipolar reference."@en,
+"La référence bipolaire T4 - O2."@fr ;
+<#anode> <#T4> ;
+<#cathode> <#O2> ;
+rdfs:label "T4-O2"@en, "T4-O2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#T4-Fp2> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The T4 - Fp2 bipolar reference."@en,
+"La référence bipolaire T4 - Fp2."@fr ;
+<#anode> <#T4> ;
+<#cathode> <#Fp2> ;
+rdfs:label "T4-Fp2"@en, "T4-Fp2"@fr ;
+<#has-mne-type> "eeg" .
+
+<#Fp2-T4> a <#BipolarReference>, <#EEGChannel> ;
+rdfs:comment
+"The Fp2 - T4 bipolar reference."@en,
+"La référence bipolaire Fp2 - T4."@fr ;
+<#anode> <#Fp2> ;
+<#cathode> <#T4> ;
+rdfs:label "Fp2-T4"@en, "Fp2-T4"@fr ;
+<#has-mne-type> "eeg" .
+
+<#location> a rdf:Property ;
+rdfs:comment
+"Spatial location of an annotation."@en,
+"Localisation spatiale de l’annotation."@fr ;
+rdfs:label "location"@en, "localisation"@fr ;
+rdfs:domain <#Annotation> ;
+rdfs:range <#Channel> .
+
+<#has-mne-type> a rdf:Property ;
+rdfs:comment
+"Channel type that should be passed to MNE, e.g. 'eeg' or 'misc'."@en,
+"Type de canal devant être fourni à MNE, p.e. 'eeg' ou 'misc'."@fr ;
+rdfs:label "has MNE type"@en, "a pour type MNE"@fr ;
+rdfs:domain <#Channel> .
+
+# --------------------------
+# Artifact detection
+
+<#ArtifactDetectionReport> a rdfs:Class ;
+rdfs:subClassOf <#Epoch> ;
+rdfs:comment
+"The result of calling an artifact detector of an epoch of the EEG."@en,
+"Le résultat de l’application d’un détecteur d’artéfact dans une époque de l’EEG."@fr ;
+rdfs:label "Artifact detection report"@en, "Rapport de détection d’artéfact"@fr .
+
+<#has-report> a rdf:Property ;
+rdfs:label "has report"@en, "a pour rapport"@fr ;
+rdfs:comment
+"Indicate that an EEG has an artifact detection report for some time window."@en,
+"Indique qu’un EEG a un rapport de détection d’artéfact dans une certaine fenêtre temporelle."@fr ;
+rdfs:domain <#EEG> ;
+rdfs:range <#ArtifactDetectionReport> ;
+owl:inverseOf <#reports> .
+
+<#reports> a rdf:Property ;
+rdfs:label "reports"@en, "rapporte"@fr ;
+rdfs:comment
+"Indicate an EEG for which this is an artifact detection report."@en,
+"Indique un EEG pour lequel ceci est un rapport de détection d’artéfact."@fr ;
+rdfs:domain <#ArtifactDetectionReport> ;
+rdfs:range <#EEG> .
+
+<#has-artifact-score> a rdf:Property ;
+rdfs:label "has artifact score"@en, "a pour score d’artéfact"@fr ;
+rdfs:comment
+"Indicate how strongly the system predicts the epoch contains an artifact. This number is between -1 and 1. The closer it is to 1, the more likely there is an artifact."@en,
+"Indique si le système prédit que l’époque contient un artéfact. C’est un nombre entre -1 et 1. Plus il est proche de 1, plus il est probable qu’il y ait un artéfact."@fr ;
+rdfs:domain <#ArtifactDetectionReport> .
+
+<#has-ensemble-disagreement> a rdf:Property ;
+rdfs:label "has ensemble disagreement"@en, "a pour désaccord d’ensemble"@fr ;
+rdfs:comment
+"An ensemble artifact detector uses many different artifact detectors for a single prediction. The ensemble disagreement quantifies how much they give different answers. If the disagreement value is large, it may indicate that manual review may benefit the system."@en,
+"Un détecteur d’artéfact ensembliste utilise plusieurs détecteurs d’artéfact différents pour une seule prédiction. Le désaccord d’ensemble quantifie leur différences de réponse. Si la valeur de désaccord est grande, cela peut indiquer qu’une vérification manuelle peut être utile au système."@fr ;
+rdfs:domain <#ArtifactDetectionReport> .
+
+<#Patient> a rdfs:Class ;
+rdfs:subClassOf foaf:Person ;
+rdfs:comment
+"A newborn whose EEG has been recorded. It is recommended to use the Bio ontology available at https://vocab.org/bio/ to describe http://purl.org/vocab/bio/0.1/ to describe the medical record of the patient, including the patient’s date of birth."@en,
+"Un nouveau-né à qui on a enregistré un EEG. Il est recommandé d’utiliser l’ontologie Bio disponible sur https://vocab.org/bio/ pour décrire http://purl.org/vocab/bio/0.1/ pour décrire le dossier médical du patient, y compris sa date de naissance."@fr ;
+rdfs:label "Patient"@en, "Patient"@fr .
+
+<#has-electroencephalography> a rdf:Property ;
+rdfs:label "has electroencephalography"@en, "a une électroencéphalographie"@fr ;
+rdfs:comment
+"The patient had an electroencephalography, which is a medical act that took place at a specific time in a specific location. The result of the encephalography is the EEG (the recording)."@en,
+"Le patient a eu une électroencéphalographie, qui est un acte médical qui a eu lieu à un certain moment à un certain endroit. Le résultat de l’électroencéphalographie est l’EEG (l’enregistrement)."@fr ;
+rdfs:domain <#Patient> ;
+rdfs:range <#Electroencephalography> ;
+owl:inverseOf <#has-patient> .
+
+<#has-patient> a rdf:Property ;
+rdfs:label "has patient"@en, "a pour patient"@fr ;
+rdfs:comment
+"The patient that underwent an electroencephalography."@en,
+"Le patient qui a eu une électroencéphalographie."@fr ;
+rdfs:domain <#Electroencephalography> ;
+rdfs:range <#Patient> ;
+owl:inverseOf <#has-electroencephalography> .
+
+<#Electroencephalography> a rdfs:Class ;
+rdfs:subClassOf bio:Event ;
+rdfs:comment
+"A medical procedure that aims to record an EEG."@en,
+"Un acte médical visant à enregistrer un EEG."@fr ;
+rdfs:label "Electroencephalography"@en, "Électroencéphalographie"@fr .
+
+<#has-eeg-result> a rdf:Property ;
+rdfs:label "has EEG result"@en, "a pour résultat EEG"@fr ;
+rdfs:comment
+"When the electroencephalography session is over, an EEG (the recorded signal) is produced."@en,
+"Lorsque la session d’électroencéphalographie est terminée, un EEG (le signal enregistré) est produit."@fr ;
+rdfs:domain <#Electroencephalography> ;
+rdfs:range <#EEG> ;
+owl:inverseOf <#is-eeg-result-of> .
+
+<#is-eeg-result-of> a rdf:Property ;
+rdfs:label "is EEG result of"@en, "est le résultat EEG de"@fr ;
+rdfs:comment
+"Find the electroencephalography session that produced the EEG."@en,
+"Indique la session d’électroencéphalographie qui a produit l’EEG."@fr ;
+rdfs:domain <#EEG> ;
+rdfs:range <#Electroencephalography> ;
+owl:inverseOf <#has-eeg-result> .
+
+<#Profile> a rdfs:Class ;
+rdfs:comment
+"A reading profile for EEGs. It specifies the list of channels to display in order, the list of useful annotation classes to show, and the default filter parameters."@en,
+"Un profil de lecture des EEGs. Il spécifie la liste des canaux à afficher dans l’ordre, la liste des classes d’annotation utiles à montrer, et les paramètres de filtre par défaut."@fr ;
+rdfs:label "Profile"@en, "Profil"@fr .
+
+<#has-channel-order-0> a rdf:Property ;
+rdfs:comment
+"Set the first channel to be displayed."@en,
+"Définit le premier canal à afficher."@fr ;
+rdfs:label "has first channel"@en, "a pour premier canal"@fr ;
+rdfs:domain <#Profile> .
+
+<#has-channel-order-1> a rdf:Property ;
+rdfs:comment
+"Set the second channel to be displayed."@en,
+"Définit le deuxième canal à afficher."@fr ;
+rdfs:label "has second channel"@en, "a pour second canal"@fr ;
+rdfs:domain <#Profile> .
+
+<#has-annotation-class> a rdf:Property ;
+rdfs:comment
+"Use a specific annotation class for the reading profile. New annotations can be made with this annotation class, and the existing annotations with this type are displayed in the plot window (and all annotations whose type is a subclass)."@en,
+"Utilise une classe d’annotation spécifique pour le profil de lecture. De nouvelles annotations peuvent être créées avec cette classe d’annotation, et les annotations existantes avec ce type sont affichées dans la fenêtre de tracé (ainsi que toutes les annotations dont le type en est une sous-classe)."@fr ;
+rdfs:label "has annotation class"@en, "a pour classe d’annotation"@fr ;
+rdfs:domain <#Profile> ;
+rdfs:range rdfs:Class .
+
+<#A-biomarker> a rdfs:class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"A biomarker that EEG reader A recognized, and that C would classify as an Encoche."@en,
+"Un biomarqueur que le lecteur d’EEG A a reconnu, et que C classifierait comme Encoche."@fr ;
+rdfs:label "Biomarker"@en, "Biomarqueur"@fr .
+
+<#Encoche> rdfs:subClassOf <#A-biomarker> .
+
+<#B-biomarker> a rdfs:class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"A biomarker that EEG reader B recognized, and that C would classify as a Pointe."@en,
+"Un biomarqueur que le lecteur d’EEG B a reconnu, et que C classifierait comme Pointe."@fr ;
+rdfs:label "Biomarker"@en, "Biomarqueur"@fr .
+
+<#Pointe> rdfs:subClassOf <#B-biomarker> .
+
+<#toy-profile-A> a <#Profile> ;
+rdfs:comment
+"A reading profile that lets you annotate only Encoches."@en,
+"Un profil de lecture qui ne vous laisse annoter que les Encoches."@fr ;
+rdfs:label "toy profile A"@en, "profil jouet A"@fr ;
+<#has-channel-order-0> <#C3-Fp1> ;
+<#has-channel-order-1> <#O1-C3> ;
+<#has-channel-order-2> <#O1-T3> ;
+<#has-channel-order-3> <#T3-Fp1> ;
+<#has-channel-order-4> <#Cz-Fz> ;
+<#has-channel-order-5> <#Pz-Cz> ;
+<#has-channel-order-6> <#C4-Fp2> ;
+<#has-channel-order-7> <#O2-C4> ;
+<#has-channel-order-8> <#O2-T4> ;
+<#has-channel-order-9> <#T4-Fp2> ;
+<#has-annotation-class> <#A-biomarker>, <#MovementArtefact> .
+
+<#toy-profile-B> a <#Profile> ;
+rdfs:comment
+"A reading profile that lets you annotate only Pointes."@en,
+"Un profil de lecture qui ne vous laisse annoter que les Pointes."@fr ;
+rdfs:label "toy profile B"@en, "profil jouet B"@fr ;
+<#has-channel-order-0> <#C3-Fp1> ;
+<#has-channel-order-1> <#O1-C3> ;
+<#has-channel-order-2> <#O1-T3> ;
+<#has-channel-order-3> <#T3-Fp1> ;
+<#has-channel-order-4> <#Cz-Fz> ;
+<#has-channel-order-5> <#Pz-Cz> ;
+<#has-channel-order-6> <#C4-Fp2> ;
+<#has-channel-order-7> <#O2-C4> ;
+<#has-channel-order-8> <#O2-T4> ;
+<#has-channel-order-9> <#T4-Fp2> ;
+<#has-annotation-class> <#B-biomarker>, <#MovementArtefact> .
+
+<#toy-profile-C> a <#Profile> ;
+rdfs:comment
+"A reading profile that displays correctly Pointes and Encoches."@en,
+"Un profil de lecture qui affiche correctement les Pointes et les Encoches."@fr ;
+rdfs:label "toy profile C"@en, "profil jouet C"@fr ;
+<#has-channel-order-0> <#C3-Fp1> ;
+<#has-channel-order-1> <#O1-C3> ;
+<#has-channel-order-2> <#O1-T3> ;
+<#has-channel-order-3> <#T3-Fp1> ;
+<#has-channel-order-4> <#Cz-Fz> ;
+<#has-channel-order-5> <#Pz-Cz> ;
+<#has-channel-order-6> <#C4-Fp2> ;
+<#has-channel-order-7> <#O2-C4> ;
+<#has-channel-order-8> <#O2-T4> ;
+<#has-channel-order-9> <#T4-Fp2> ;
+<#has-annotation-class> <#Encoche>, <#Pointe>, <#MovementArtefact> .
+
+<#lytonepal-profile> a <#Profile> ;
+rdfs:comment
+"The profile used for Lytonepal."@en,
+"Le profil utilisé par Lytonepal."@fr ;
+rdfs:label "lytonepal profile"@en, "profil lytonepal"@fr ;
+<#has-channel-order-0> <#Fp2-T4> ;
+<#has-channel-order-1> <#Fp2-C4> ;
+<#has-channel-order-2> <#Fz-Cz> ;
+<#has-channel-order-3> <#Fp1-C3> ;
+<#has-channel-order-4> <#Fp1-T3> ;
+<#has-channel-order-5> <#T4-O2> ;
+<#has-channel-order-6> <#C4-O2> ;
+<#has-channel-order-7> <#Cz-Pz> ;
+<#has-channel-order-8> <#C3-O1> ;
+<#has-channel-order-9> <#T3-O1> ;
+<#has-annotation-class> <#TraceContinu>, <#TraceDiscontinu>, <#Bouffee>, <#TraceBasVoltage>, <#STOPS>, <#TOA-SW>, <#ThetaFrontal>, <#OndesLentesDelta>, <#DeltaBrushes>, <#MechanicalBrushes>, <#BIRD>, <#PLED>, <#Crise>, <#EtatDeMal>, <#Encoche>, <#Pointe>, <#MovementArtefact>, <#NonArtefact>, <#MyogramArtefact>, <#ThetaTemporal>, <#Alpha>, <#PPR> .
+
+<#other-lytonepal-profile> a <#Profile> ;
+rdfs:comment
+"Another profile, with a different montage."@en,
+"Un autre profil, avec un montage différent."@fr ;
+rdfs:label "other lytonepal profile"@en, "profil lytonepal différent"@fr ;
+<#has-channel-order-0> <#Fp2-T4> ;
+<#has-channel-order-5> <#T4-O2> ;
+<#has-channel-order-1> <#Fp2-C4> ;
+<#has-channel-order-6> <#C4-O2> ;
+<#has-channel-order-2> <#Fz-Cz> ;
+<#has-channel-order-7> <#Cz-Pz> ;
+<#has-channel-order-3> <#Fp1-C3> ;
+<#has-channel-order-8> <#C3-O1> ;
+<#has-channel-order-4> <#Fp1-T3> ;
+<#has-channel-order-9> <#T3-O1> ;
+<#has-annotation-class> <#TraceContinu>, <#TraceDiscontinu>, <#Bouffee>, <#TraceBasVoltage>, <#STOPS>, <#TOA-SW>, <#ThetaFrontal>, <#OndesLentesDelta>, <#DeltaBrushes>, <#MechanicalBrushes>, <#BIRD>, <#PLED>, <#Crise>, <#EtatDeMal>, <#Encoche>, <#Pointe>, <#MovementArtefact>, <#NonArtefact>, <#MyogramArtefact>, <#ThetaTemporal>, <#Alpha>, <#PPR> .
+
+<#Filter-parameter> a rdfs:Class ;
+rdfs:comment
+"A set of parameters that define a filter."@en,
+"Un ensemble de paramètres définissant un filtre."@fr ;
+rdfs:label "Filter parameters"@en, "Paramètres de filtre"@fr .
+
+<#Band-pass-filter-parameter> a rdfs:Class ;
+rdfs:subClassOf <#Filter-parameter> ;
+rdfs:comment
+"A set of parameters that define a band-pass filter."@en,
+"Un ensemble de paramètres définissant un filtre passe-bande."@fr ;
+rdfs:label "Band-pass filter parameters"@en, "Paramètres de filtre passe-bande"@fr .
+
+<#has-high-pass> a rdf:Property ;
+rdfs:comment
+"Specify the lowest cutoff frequency of a band-pass filter."@en,
+"Spécifie la fréquence de seuil la plus basse d’un filtre passe-bande."@fr ;
+rdfs:label "passes frequencies higher than"@en, "laisse passer les fréquences supérieures à"@fr ;
+rdfs:domain <#Band-pass-filter-parameter> ;
+rdfs:range rdfs:Literal .
+
+<#has-low-pass> a rdf:Property ;
+rdfs:comment
+"Specify the highestest cutoff frequency of a band-pass filter."@en,
+"Spécifie la fréquence de seuil la plus haute d’un filtre passe-bande."@fr ;
+rdfs:label "passes frequencies lower than"@en, "laisse passer les fréquences inférieures à"@fr ;
+rdfs:domain <#Band-pass-filter-parameter> ;
+rdfs:range rdfs:Literal .
+
+<#Channel> a rdfs:Class ;
+rdfs:comment
+"A channel of an EEG, stored as a one-dimensional vector."@en,
+"Un canal EEG, stocké comme un vecteur unidimensionnel."@fr ;
+rdfs:label "Channel"@en, "Canal"@fr .
+
+<#column-number> a rdf:Property ;
+rdfs:comment
+"Indicate where the channel is located in the EEG table."@en,
+"Indique dans quelle colonne est situé le canal dans la table EEG."@fr ;
+rdfs:label "has column number"@en, "a pour numéro de colonne"@fr ;
+rdfs:domain <#Channel> ;
+rdfs:range rdfs:Literal .
+
+<#has-hdf5-path> a rdf:Property ;
+rdfs:comment
+"Indicate where the EEG table for the EEG is located in the HDF5 file."@en,
+"Indique où dans le fichier HDF5 est stockée la table pour l’EEG."@fr ;
+rdfs:label "has HDF5 path"@en, "est stocké sous le chemin HDF5"@fr ;
+rdfs:domain <#EEG> ;
+rdfs:range rdfs:Literal .
+
+<#has-filter-parameters> a rdf:Property ;
+rdfs:comment
+"Indicate the parameters the EEG has been filtered with."@en,
+"Indique avec quels paramètres l’EEG a été filtré."@fr ;
+rdfs:label "has filter parameters"@en, "est filtré avec"@fr ;
+rdfs:domain <#EEG> ;
+rdfs:range <#Filter-parameter> .

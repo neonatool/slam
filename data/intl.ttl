@@ -1,0 +1,20 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+rdfs:subClassOf rdfs:label "sous-classe de"@fr .
+
+rdfs:Class rdfs:label "Classe"@fr .
+
+rdf:Property rdfs:label "Propriété"@fr .
+
+rdfs:domain rdfs:label "domaine de définition"@fr .
+
+rdfs:range rdfs:label "portée"@fr .
+
+rdfs:seeAlso rdfs:label "voir également"@fr .
+
+doap:repositoryOf rdfs:label "dépôt de"@fr .
+
+owl:inverseOf rdfs:label "inverse de"@fr .
