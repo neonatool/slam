@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>SLAM SoftwareX Illustrative Example</title>
+    <link href="generator/index.css" rel="stylesheet"></link>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body>
+    <h1>SLAM SoftwareX Illustrative Example</h1>
+    <p>
+      The submitted paper for SLAM introduces an illustrative example for interoperable annotations. This page walks the user through the steps to reproduce the example.
+    </p>
+    <p>
+      It is possible to run this example locally, without depending on static code served by Github Pages. To do so, clone the repository, and, with Python and rdflib (the Python package), as well as NPM, installed, run <code>npm i</code> to install the dependencies, <code>npm run build</code> to bundle the code, and <code>npm run serve</code> to serve the static data locally. 
+    </p>
+    <h2>First Step: Get the Example EEG</h2>
+    <p>
+      In order to get an un-annotated example EEG, head over to <a href="generator/index.html" target="_blank" rel="noopener noreferrer">the EEG generator</a>. At the end of the page, click the download button to download the <code>generated.adf</code> file.
+    </p>
+    <h2>Second Step: Run Study A</h2>
+    <p>
+      When opening the SLAM demo page, a succint dialog asks for a file and a reading profile. Select the generated EEG file in the ADF format, <code>generated.adf</code>, and the toy profile A.
+    </p>
+    <p>
+      The SLAM window then shows the biosignal, and below that, an annotation form to add annotations from study A. To create a new annotation, click on the start of the annotation (this fills in the start date/time), then click on the end of the annotation (this fills in the stop date/time). Then select the annotation type, and the relevant channels. Then click the save button.
+    </p>
+    <p>
+      For study A, add 3 asynchronous FSPs: on channel Fp1, around second 4 and around second 5, and on channel Fp2, around second 18.
+    </p>
+    <p>
+      At the bottom of the page, click the download button, to download the file with the new study A annotations.
+    </p>
+    <h2>Third Step: Run Study B</h2>
+    <p>
+      Reload the SLAM application. Open the modified EEG, with the toy profile B.
+    </p>
+    <p>
+      Check that asynchronous FSPs that have been added in the previous step are now recognized as generic FSPs for study B. The list of allowed annotations has changed: now both generic FSPs and spikes are allowed.
+    </p>
+    <p>
+      There are a few spikes in the EEG: around seconds 1, 2 and 16 at O2. Mark them, and save the modified EEG.
+    </p>
+    <h2>Fourth Step: Check that the Results of Study A are Unchanged</h2>
+    <p>
+      Open the newly modified file with profile A again. The results are unchanged: the asynchronous FSPs are still marked as such, and the spikes, which are of no interest for study A, are not shown.
+    </p>
+  </body>
+</html>
+
