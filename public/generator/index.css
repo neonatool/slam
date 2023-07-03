@@ -23,3 +23,12 @@ h1 {
 script {
     display: block;
 }
+
+.fullwidth img {
+  width: 40em;
+  margin: auto;
+}
+
+figcaption {
+    font-style: italic;
+}

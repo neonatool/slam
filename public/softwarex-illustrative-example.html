@@ -14,39 +14,102 @@
       The submitted paper for SLAM introduces an illustrative example for interoperable annotations. This page walks the user through the steps to reproduce the example.
     </p>
     <p>
-      It is possible to run this example locally, without depending on static code served by Github Pages. To do so, clone the repository, and, with Python and rdflib (the Python package), as well as NPM, installed, run <code>npm i</code> to install the dependencies, <code>npm run build</code> to bundle the code, and <code>npm run serve</code> to serve the static data locally. 
+      It is possible to run this example locally, without depending on static code served by Github Pages. To do so, clone the repository, and, with Python and rdflib (the Python package), as well as NPM, installed, run <code>npm i</code> to install the dependencies, <code>npm run build</code> to bundle the code, and <code>npm run serve</code> to serve the static application data locally. All the code is executed in the browser.
     </p>
     <h2>First Step: Get the Example EEG</h2>
     <p>
       In order to get an un-annotated example EEG, head over to <a href="generator/index.html" target="_blank" rel="noopener noreferrer">the EEG generator</a>. At the end of the page, click the download button to download the <code>generated.adf</code> file.
     </p>
+    <figure class="fullwidth">
+      <img src="images/generate.png"
+           alt="EEG generator page. At the bottom of it, the heading named “Download your EEG!” displays a link that reads “Download the generated EEG.”">
+      </img>
+      <figcaption>Download link at the bottom of the generator page</figcaption>
+    </figure>
     <h2>Second Step: Run Study A</h2>
     <p>
       When opening the SLAM demo page, a succint dialog asks for a file and a reading profile. Select the generated EEG file in the ADF format, <code>generated.adf</code>, and the toy profile A.
     </p>
+    <figure class="fullwidth">
+      <img src="/images/open-1.png"
+            alt="SLAM page with 3 controls: a file chooser button, a profile selector box, and an Open button">
+      </img>
+      <figcaption>Select the generated file with toy profile A in SLAM</figcaption>
+    </figure>
     <p>
-      The SLAM window then shows the biosignal, and below that, an annotation form to add annotations from study A. To create a new annotation, click on the start of the annotation (this fills in the start date/time), then click on the end of the annotation (this fills in the stop date/time). Then select the annotation type, and the relevant channels. Then click the save button.
+      The SLAM window then shows the biosignal, and below that, an annotation form to add annotations from study A. To create a new annotation, click on the start of the annotation (this fills in the start date/time), then click on the end of the annotation (this fills in the stop date/time). If you make a mistake, click the Reset button in the annotation box below the plot to erase both times and start over.
     </p>
+    <figure class="fullwidth">
+      <img src="images/click-1.png"
+           alt="Plot window showing the generated EEG. The pointer is hovering the start of a FSP just before second 4, and a red vertical line is displayed across all channels under the pointer.">
+      </img>
+      <figcaption>Click on the plot, at the start of the FSP around second 4.</figcaption>
+    </figure>
+    <figure class="fullwidth">
+      <img src="images/click-2.png"
+           alt="Same plot window, but the pointer is now hovering the end of the FSP just after second 4.">
+      </img>
+      <figcaption>Then click again, at the end of the FSP just after second 4.</figcaption>
+    </figure>
+    <p>
+      Then scroll down, select the annotation type, and the relevant channels. Then click the save button.
+    </p>
+    <figure class="fullwidth">
+      <img src="images/select-a.png"
+           alt="The annotation box, showing the date/times around the annotation, with a Reset button on the same line. Below are two groups of controls, left and right: one on the left to select the annotation class among a set of radio buttons (“Asynchronous FSP (study A)” is selected), and one on the right to select one or many channels (“Fp1” is the only one selected). Below everything are two buttons, a greyed out delete button and an active save button.">
+      </img>
+      <figcaption>Select Asynchronous FSP (study A) and Fp1, and click the save button.</figcaption>
+    </figure>
     <p>
       For study A, add 3 asynchronous FSPs: on channel Fp1, around second 4 and around second 5, and on channel Fp2, around second 18.
     </p>
+    <figure class="fullwidth">
+      <img src="images/annotated-a.png"
+           alt="The plot window, with 3 annotations, appearing in blue. All of them are labeled “Asynchronous FSP (study A)”.">
+      </img>
+      <figcaption>The plot window after annotating 3 FSPs.</figcaption>
+    </figure>
     <p>
-      At the bottom of the page, click the download button, to download the file with the new study A annotations.
+      The new annotations appear in blue, because you didn’t save them yet. At the very bottom of the page, click the download button, to download the file with the new study A annotations.
     </p>
+    <figure class="fullwidth">
+      <img src="images/download-button.png"
+           alt="The download link, reading: “Download the modified file”.">
+      </img>
+      <figcaption>Scroll down to the very bottom of the page, and click the download button.</figcaption>
+    </figure>
     <h2>Third Step: Run Study B</h2>
     <p>
       Reload the SLAM application. Open the modified EEG, with the toy profile B.
     </p>
     <p>
-      Check that asynchronous FSPs that have been added in the previous step are now recognized as generic FSPs for study B. The list of allowed annotations has changed: now both generic FSPs and spikes are allowed.
+      Check that asynchronous FSPs that have been added in the previous step are now recognized as generic FSPs for study B. The list of allowed annotations (below the plot) has changed: now both generic FSPs and spikes are allowed.
     </p>
+    <figure class="fullwidth">
+      <img src="images/start-study-b.png"
+           alt="A plot window with 3 annotations, placed where the asynchronous FSPs from study A were, but now in orange and labeled “Front Sharp Transient (study B)”.">
+      </img>
+      <figcaption>When opened, the previous annotations are automatically converted to FSPs recognized by study B.</figcaption>
+    </figure>
     <p>
       There are a few spikes in the EEG: around seconds 1, 2 and 16 at O2. Mark them, and save the modified EEG.
     </p>
+    <figure class="fullwidth">
+      <img src="images/end-of-study-b.png"
+           alt="The same plot window, but now with 3 more annotations in blue, labeled “Spike (study B)”.">
+      </img>
+      <figcaption>Annotate the 3 spikes in O2, and download the file modified by study B.</figcaption>
+    </figure>
     <h2>Fourth Step: Check that the Results of Study A are Unchanged</h2>
     <p>
       Open the newly modified file with profile A again. The results are unchanged: the asynchronous FSPs are still marked as such, and the spikes, which are of no interest for study A, are not shown.
     </p>
+    <figure class="fullwidth">
+      <img src="images/back-to-study-a.png"
+           alt="The same plot window, showing only the 3 FSPs, labeled “Asynchronous FSP (study A)”.">
+      </img>
+      <figcaption>The work you did for study B did not alter the results of study A.</figcaption>
+    </figure>
   </body>
 </html>
 
