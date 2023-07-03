@@ -677,74 +677,74 @@ rdfs:label "has annotation class"@en, "a pour classe d’annotation"@fr ;
 rdfs:domain <#Profile> ;
 rdfs:range rdfs:Class .
 
-<#A-biomarker> a rdfs:class ;
+<#A-fsp-sync> a rdfs:class ;
 rdfs:subClassOf <#Annotation> ;
 rdfs:comment
-"A biomarker that EEG reader A recognized, and that C would classify as an Encoche."@en,
-"Un biomarqueur que le lecteur d’EEG A a reconnu, et que C classifierait comme Encoche."@fr ;
-rdfs:label "Biomarker"@en, "Biomarqueur"@fr .
+"Synchronous Front Sharp Transient from example study A."@en,
+"Encoche frontale synchrone dans l’étude d’exemple A."@fr ;
+rdfs:label "Synchronous FSP (study A)"@en, "Encoche frontale synchrone (étude A)"@fr .
 
-<#Encoche> rdfs:subClassOf <#A-biomarker> .
-
-<#B-biomarker> a rdfs:class ;
+<#A-fsp-async> a rdfs:class ;
 rdfs:subClassOf <#Annotation> ;
 rdfs:comment
-"A biomarker that EEG reader B recognized, and that C would classify as a Pointe."@en,
-"Un biomarqueur que le lecteur d’EEG B a reconnu, et que C classifierait comme Pointe."@fr ;
-rdfs:label "Biomarker"@en, "Biomarqueur"@fr .
+"Asynchronous Front Sharp Transient from example study A."@en,
+"Encoche frontale asynchrone de l’étude d’exemple A."@fr ;
+rdfs:label "Asynchronous FSP (study A)"@en, "Encoche frontale asynchrone (étude A)"@fr .
 
-<#Pointe> rdfs:subClassOf <#B-biomarker> .
+<#B-fsp> a rdfs:class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"Front Sharp Transient, either synchronous or asynchronous, from example study B."@en,
+"Encoche frontale, synchrone ou asynchrone, de l’étude d’exemple B."@fr ;
+rdfs:label "Front Sharp Transient (study B)"@en, "Encoche frontale (étude B)"@fr .
+
+<#B-spike> a rdfs:class ;
+rdfs:subClassOf <#Annotation> ;
+rdfs:comment
+"A spike, from example study B."@en,
+"Une pointe, de l’étude d’exemple B."@fr ;
+rdfs:label "Spike (study B)"@en, "Pointe (étude B)"@fr .
+
+<#Encoche> rdfs:subClassOf <#A-fsp-sync>, <#A-fsp-async>, <#B-fsp> .
+
+<#Pointe> rdfs:subClassOf <#B-spike> .
+
+<#A-fsp-async> rdfs:subClassOf <#B-fsp> .
+<#A-fsp-sync> rdfs:subClassOf <#B-fsp> .
 
 <#toy-profile-A> a <#Profile> ;
 rdfs:comment
-"A reading profile that lets you annotate only Encoches."@en,
+"A reading profile that lets you annotate only FSPs."@en,
 "Un profil de lecture qui ne vous laisse annoter que les Encoches."@fr ;
 rdfs:label "toy profile A"@en, "profil jouet A"@fr ;
-<#has-channel-order-0> <#C3-Fp1> ;
-<#has-channel-order-1> <#O1-C3> ;
-<#has-channel-order-2> <#O1-T3> ;
-<#has-channel-order-3> <#T3-Fp1> ;
-<#has-channel-order-4> <#Cz-Fz> ;
-<#has-channel-order-5> <#Pz-Cz> ;
-<#has-channel-order-6> <#C4-Fp2> ;
-<#has-channel-order-7> <#O2-C4> ;
-<#has-channel-order-8> <#O2-T4> ;
-<#has-channel-order-9> <#T4-Fp2> ;
-<#has-annotation-class> <#A-biomarker>, <#MovementArtefact> .
+<#has-channel-order-0> <#Fp2-T4> ;
+<#has-channel-order-1> <#Fp2-C4> ;
+<#has-channel-order-2> <#Fz-Cz> ;
+<#has-channel-order-3> <#Fp1-C3> ;
+<#has-channel-order-4> <#Fp1-T3> ;
+<#has-channel-order-5> <#T4-O2> ;
+<#has-channel-order-6> <#C4-O2> ;
+<#has-channel-order-7> <#Cz-Pz> ;
+<#has-channel-order-8> <#C3-O1> ;
+<#has-channel-order-9> <#T3-O1> ;
+<#has-annotation-class> <#A-fsp-sync>, <#A-fsp-async> .
 
 <#toy-profile-B> a <#Profile> ;
 rdfs:comment
-"A reading profile that lets you annotate only Pointes."@en,
-"Un profil de lecture qui ne vous laisse annoter que les Pointes."@fr ;
+"A reading profile that lets you annotate FSPs and Spikes."@en,
+"Un profil de lecture qui ne vous laisse annoter que les Encoches et Pointes."@fr ;
 rdfs:label "toy profile B"@en, "profil jouet B"@fr ;
-<#has-channel-order-0> <#C3-Fp1> ;
-<#has-channel-order-1> <#O1-C3> ;
-<#has-channel-order-2> <#O1-T3> ;
-<#has-channel-order-3> <#T3-Fp1> ;
-<#has-channel-order-4> <#Cz-Fz> ;
-<#has-channel-order-5> <#Pz-Cz> ;
-<#has-channel-order-6> <#C4-Fp2> ;
-<#has-channel-order-7> <#O2-C4> ;
-<#has-channel-order-8> <#O2-T4> ;
-<#has-channel-order-9> <#T4-Fp2> ;
-<#has-annotation-class> <#B-biomarker>, <#MovementArtefact> .
-
-<#toy-profile-C> a <#Profile> ;
-rdfs:comment
-"A reading profile that displays correctly Pointes and Encoches."@en,
-"Un profil de lecture qui affiche correctement les Pointes et les Encoches."@fr ;
-rdfs:label "toy profile C"@en, "profil jouet C"@fr ;
-<#has-channel-order-0> <#C3-Fp1> ;
-<#has-channel-order-1> <#O1-C3> ;
-<#has-channel-order-2> <#O1-T3> ;
-<#has-channel-order-3> <#T3-Fp1> ;
-<#has-channel-order-4> <#Cz-Fz> ;
-<#has-channel-order-5> <#Pz-Cz> ;
-<#has-channel-order-6> <#C4-Fp2> ;
-<#has-channel-order-7> <#O2-C4> ;
-<#has-channel-order-8> <#O2-T4> ;
-<#has-channel-order-9> <#T4-Fp2> ;
-<#has-annotation-class> <#Encoche>, <#Pointe>, <#MovementArtefact> .
+<#has-channel-order-0> <#Fp2-T4> ;
+<#has-channel-order-1> <#Fp2-C4> ;
+<#has-channel-order-2> <#Fz-Cz> ;
+<#has-channel-order-3> <#Fp1-C3> ;
+<#has-channel-order-4> <#Fp1-T3> ;
+<#has-channel-order-5> <#T4-O2> ;
+<#has-channel-order-6> <#C4-O2> ;
+<#has-channel-order-7> <#Cz-Pz> ;
+<#has-channel-order-8> <#C3-O1> ;
+<#has-channel-order-9> <#T3-O1> ;
+<#has-annotation-class> <#B-fsp>, <#B-spike> .
 
 <#lytonepal-profile> a <#Profile> ;
 rdfs:comment
