@@ -1,0 +1,94 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+
+<> a owl:Ontology ;
+dcterms:title "Lytonepal-related Projects"@en,
+"Projets en lien avec Lytonepal"@fr ;
+dcterms:description
+"The projects I know of that are related to Lytonepal."@en,
+"Les projets que je connais en lien avec lytonepal."@fr ;
+vann:preferredNamespacePrefix "lytonepal-projects" ;
+vann:preferredNamespaceURI <#> .
+
+<#PLMLabProject> a rdfs:Class ;
+rdfs:subClassOf doap:Project ;
+rdfs:comment
+"A project hosted at plmlab."@en,
+"Un projet hébergé sur plmlab."@fr ;
+rdfs:label "Plmlab Project"@en, "Projet sur Plmlab"@fr .
+
+<#has-gitlab-pages> a rdf:Property ;
+rdfs:comment
+"Set the gitlab pages URL related to the project."@en,
+"Définit l’URL des pages gitlab associées à ce projet."@fr ;
+rdfs:label "has gitlab pages"@en, "pages gitlab"@fr ;
+rdfs:domain <#PLMLabProject> ;
+rdfs:seeAlso <#PLMLabPagesIssue> .
+
+<#Issue> a rdfs:Class ;
+rdfs:comment
+"An issue I have with any projects listed here."@en,
+"Un problème que j’ai avec l’un des projets listés ici."@fr ;
+rdfs:label "Issue"@en, "Problème"@fr .
+
+<#PLMLabPagesIssue> a <#Issue> ;
+rdfs:comment
+"Due to a fundamental design flaw in the web browser, websites are supposed to have control over the user’s browser, so they must use the user’s computer to protect themselves from the user (and the parts of the web the user might wish to trust). The CORS/SOP abomination was created so that only code from the website is allowed to run in a specific page. The tyrants have succeeded in making it opt-out, and plmlab does not opts out. While the world waits for a web browser that would respect users’ freedom, we depend on plmlab to do the right thing."@en,
+"À cause d’un défaut de conception fondamental du navigateur web, les sites contrôlent le navigateur de l’utilisateur, ce qui oblige ces sites à utiliser l’ordinateur de l’utilisateur pour se protéger de lui (et des morceaux du web auxquels l’utilisateur voudrait accéder). L’abomination CORS/SOP a été créée pour interdire à une page d’exécuter du code qui ne provienne pas du site web. Les tyrans ont réussi à l’activer par défaut, et plmlab ne le désactive pas. En attendant d’avoir un navigateur web qui respecte la liberté de ses utilisateurs, nous dépendons du bon vouloir de plmlab."@fr ;
+rdfs:label "Plmlab Pages Issue"@en, "Problème avec les pages plmlab"@fr .
+
+<#lytonepal-ontology> a <#PLMLabProject> ;
+rdfs:comment "This very ontology."@en, "Cette ontologie-là."@fr ;
+rdfs:label "Lytonepal (ontology)"@en, "Lytonepal (ontologie)"@fr ;
+<#has-gitlab-pages> <https://vkraus.pages.math.cnrs.fr/lytonepal> ;
+doap:repository <#lytonepal-ontology-repo> .
+
+<#lytonepal-ontology-repo> a doap:GitRepository ;
+doap:location <https://plmlab.math.cnrs.fr/vkraus/lytonepal.git> ;
+doap:browse <https://plmlab.math.cnrs.fr/vkraus/lytonepal> ;
+rdfs:comment
+"The lytonepal ontology git repository."@en,
+"Le dépôt git de l’ontologie lytonepal."@fr ;
+rdfs:label
+"Lytonepal repository (ontology)"@en,
+"Dépôt lytonepal (ontologie)"@fr .
+
+<#lytonepal-kernel> a <#PLMLabProject> ;
+rdfs:comment
+"Process the private EEG data (right now, for artifact detection). This project is called the “kernel” project, because it handles the heavy server-side computations."@en,
+"Traite les données EEG privées (pour l’instant, pour faire de la détection d’artéfact). Ce projet est appelé le projet « noyau », parce qu’il effectue les calculs lourds côté serveur."@fr ;
+rdfs:label "Lytonepal (kernel)"@en, "Lytonepal (noyau)"@fr ;
+doap:repository <#lytonepal-kernel-repo> .
+
+<#lytonepal-kernel-repo> a doap:GitRepository ;
+doap:location <https://plmlab.math.cnrs.fr/vkraus/lytonepal-eeg.git> ;
+doap:browse <https://plmlab.math.cnrs.fr/vkraus/lytonepal-eeg> ;
+rdfs:comment
+"The lytonepal kernel git repository."@en,
+"Le dépôt git du noyau lytonepal."@fr ;
+rdfs:label
+"Lytonepal repository (kernel)"@en,
+"Dépôt lytonepal (noyau)"@fr .
+
+<#bevue> a <#PLMLabProject> ;
+rdfs:comment
+"The visualization library used to display EEGs and edit annotations."@en,
+"La bibliothèque de visualisation utilisée pour afficher des EEGs et éditer les annotations."@fr ;
+rdfs:label "Bevue"@en, "Bevue"@fr ;
+<#has-gitlab-pages> <https://vkraus.pages.math.cnrs.fr/bevue> ;
+doap:repository <#bevue-repo> .
+
+<#bevue-repo> a doap:GitRepository ;
+doap:location <https://plmlab.math.cnrs.fr/vkraus/bevue.git> ;
+doap:browse <https://plmlab.math.cnrs.fr/vkraus/bevue> ;
+rdfs:comment
+"The bevue git repository."@en,
+"Le dépôt git de bevue."@fr ;
+rdfs:label
+"Bevue repository"@en,
+"Dépôt bevue"@fr .

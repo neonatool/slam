@@ -1,0 +1,26 @@
+name: Build with node
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Python and rdflib
+      run: sudo apt-get install -y python3 python3-rdflib
+    - name: Set up node.js ${{matrix.node-version}}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{matrix.node-version}}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+    - run: npm run check

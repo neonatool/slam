@@ -1,0 +1,15 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+<#rangeOf> rdfs:label "dans l’image de"@fr, "in range of"@en ;
+owl:inverseOf rdfs:range .
+
+<#domainOf> rdfs:label "dans le domaine de"@fr, "in domain of"@en ;
+owl:inverseOf rdfs:domain .
+
+<#superClassOf> rdfs:label "super-classe de"@fr, "superclass of"@en ;
+owl:inverseOf rdfs:subClassOf .
+
+<#instanciatedBy> rdfs:label "instancié par"@fr, "instanciated by"@en ;
+owl:inverseOf rdf:type .
