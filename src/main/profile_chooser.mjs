@@ -10,9 +10,15 @@ export default class ProfileChooser extends HTMLElement {
 	container.appendChild (label);
 	const selector = document.createElement ('select');
 	selector.setAttribute ('id', 'profile-chooser');
+	this._selector = selector;
 	container.appendChild (selector);
 	shadow.appendChild (container);
+	this.reload ();
 	this.value = null;
+    }
+    reload () {
+	this._selector.replaceChildren([]);
+        Profile.reload_profile_data ();
 	for (const p of Profile.list ()) {
 	    const option = document.createElement ('option');
 	    const text = document.createTextNode (p.label ());
@@ -21,12 +27,12 @@ export default class ProfileChooser extends HTMLElement {
 	        option.selected = true;
 		this.value = p;
 	    }
-	    selector.addEventListener ('change', () => {
+	    this._selector.addEventListener ('change', () => {
                 if (option.selected) {
 		    this.value = p;
 		}
 	    });
-	    selector.appendChild (option);
+	    this._selector.appendChild (option);
 	}
     }
 }
