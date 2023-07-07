@@ -4,8 +4,24 @@ import staticData from '../ontology.mjs';
 import { ChannelType as PlotChannelType } from '../eeg-plots.mjs';
 import _ from '../gettext.mjs';
 
+let profileData = staticData;
+
+function reloadProfileData () {
+    const asString = (localStorage && localStorage.getItem ('extra-profile-data')) || null;
+    profileData = new $rdf.Store ();
+    profileData.addAll (staticData.statements);
+    if (asString) {
+        try {
+            $rdf.parse(asString, profileData, 'https://localhost/lytonepal', 'text/turtle');
+	} catch (err) {
+	    return false;
+	}
+    }
+    return true;
+}
+
 function staticLabel (language, subject) {
-    const matches = staticData.each (subject, RDFS('label'), null);
+    const matches = profileData.each (subject, RDFS('label'), null);
     if (language === null) {
 	// Return the first literal
 	for (const m of matches) {
@@ -38,14 +54,14 @@ function staticLabel (language, subject) {
 function staticPlotChannelType (language, id) {
     const name = staticLabel (language, id);
     let is_eeg = false;
-    const mne_types = staticData.each (id, LYTO('has-mne-type'), null);
+    const mne_types = profileData.each (id, LYTO('has-mne-type'), null);
     for (const t of mne_types) {
 	if (t.value === 'eeg') {
 	    is_eeg = true;
 	}
     }
     const [anode_id, cathode_id] = [LYTO('cathode'), LYTO('anode')].map ((p) => {
-	return staticData.any (id, p, null);
+	return profileData.any (id, p, null);
     });
     if (anode_id !== null && cathode_id !== null) {
 	const [ anode, cathode ] = [
@@ -58,7 +74,7 @@ function staticPlotChannelType (language, id) {
 }
 
 function loadChannelOrder (language, id, offset) {
-    const next = staticData.any (id, LYTO (`has-channel-order-${offset}`), null);
+    const next = profileData.any (id, LYTO (`has-channel-order-${offset}`), null);
     if (next) {
 	return [ staticPlotChannelType (language, next),
 		 ...loadChannelOrder (language, id, offset + 1) ];
@@ -72,7 +88,7 @@ export default class Profile {
 	this.language = language;
     }
     static list () {
-	const ids = staticData.each (null, RDF('type'), LYTO('Profile'));
+	const ids = profileData.each (null, RDF('type'), LYTO('Profile'));
 	console.log(_ ('Profile IDs:'), ids);
 	return ids.map ((id) => new Profile (id));
     }
@@ -83,7 +99,7 @@ export default class Profile {
 	return loadChannelOrder (this.language, this.id, 0);
     }
     authorized_annotation_classes () {
-	return staticData.each (this.id, LYTO('has-annotation-class'), null);
+	return profileData.each (this.id, LYTO('has-annotation-class'), null);
     }
     findParentAnnotationClass (type) {
         const roots = this.authorized_annotation_classes ();
@@ -93,7 +109,7 @@ export default class Profile {
     	    }
         }
         // Not found yet, maybe we are looking for a parent?
-        const subclasses = staticData.each (type, RDFS('subClassOf'), null);
+        const subclasses = profileData.each (type, RDFS('subClassOf'), null);
         for (const subclass of subclasses) {
             const parent = this.findParentAnnotationClass (subclass);
             if (parent) {
@@ -117,6 +133,9 @@ export default class Profile {
     }
     label () {
 	return staticLabel (this.language, this.id);
+    }
+    static reload_profile_data () {
+        return reloadProfileData ();
     }
 }
 

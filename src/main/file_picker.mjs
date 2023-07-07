@@ -1,5 +1,6 @@
 import { Model } from '../model.mjs';
 import ProfileChooser from './profile_chooser.mjs';
+import ExtraProfileData from './extra_profile_data.mjs';
 import _ from '../gettext.mjs';
 
 export default class FilePicker extends HTMLElement {
@@ -7,6 +8,7 @@ export default class FilePicker extends HTMLElement {
 	super ();
 	const shadow = this.attachShadow ({ mode: 'open'});
 	const container = document.createElement ('div');
+	container.style = 'display: flex; flex-direction: column; max-width: 40em; margin: auto; margin-top: 3ex;';
 	this.input = document.createElement('input');
 	this.input.type = 'file';
 	this.model = null;
@@ -34,6 +36,9 @@ export default class FilePicker extends HTMLElement {
 	    }
 	});
 	container.appendChild (submit);
+	const extra = document.createElement ('slam-extra-profile-data-editor');
+	extra.addEventListener ('slam-extra-profile-data', () => profile_chooser.reload ());
+	container.appendChild (extra);
 	shadow.appendChild (container);
     }
 }
