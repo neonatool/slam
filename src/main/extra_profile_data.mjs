@@ -24,6 +24,7 @@ export default class ExtraProfileData extends HTMLElement {
 	entry.addEventListener ('input', () => {
 	    if (localStorage) {
 	        localStorage.setItem ('extra-profile-data', entry.value);
+		this.reload ();
 	    }
 	    const reloadEvent = new CustomEvent ('slam-extra-profile-data');
 	    this.dispatchEvent (reloadEvent);
@@ -36,13 +37,17 @@ export default class ExtraProfileData extends HTMLElement {
 	if (existing) {
 	    this._entry.appendChild (document.createTextNode (existing));
 	}
-	try {
-            const parsed = new $rdf.Store ();
-	    $rdf.parse (existing, parsed, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html', 'text/turtle');
-	    this._label.appendChild (document.createTextNode ('Extra profile data (Turtle):'));
-	} catch (err) {
-	    this._label.appendChild (document.createTextNode ('This is not valid Turtle for extra profile data:'));
-	}
+        if (existing && existing.length > 0) {
+            try {
+                const parsed = new $rdf.Store ();
+                $rdf.parse (existing, parsed, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html', 'text/turtle');
+                this._label.appendChild (document.createTextNode ('Extra profile data (Turtle):'));
+            } catch (err) {
+                this._label.appendChild (document.createTextNode ('This is not valid Turtle for extra profile data:'));
+            }
+        } else {
+            this._label.appendChild (document.createTextNode ('You can add extra profile data in the Turtle format:'));
+        }
     }
 }
 
