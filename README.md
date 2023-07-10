@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/demo--gh-slam-blue?link=https%3A%2F%2Fneonatool.github.io%2Fslam%2F)
+[![Static Badge](https://img.shields.io/badge/demo--gh-slam-blue?link=https%3A%2F%2Fneonatool.github.io%2Fslam%2F)](https://neonatool.github.io/slam/)
 
 # SLAM
 
