@@ -40,7 +40,8 @@ The first command creates the static data graph for rdflib/javascript, and
 bundle all the source code.
 
 The second command will check the interface protocol between
-workers.
+workers. The output is quite verbose, and some HDF5 warnings may still
+be present.
 
 The last command will open a local static HTTP server to see the demo. We
 recommend visiting the `/generator` page first, to generate a simple example
