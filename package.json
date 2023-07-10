@@ -19,5 +19,5 @@
     "serve": "http-server -c-1"
   },
   "author": "vivien.kraus@univ-reims.fr",
-  "license": "???"
+  "license": "CECILL-B"
 }
