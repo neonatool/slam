@@ -12,7 +12,7 @@ function reloadProfileData () {
     profileData.addAll (staticData.statements);
     if (asString) {
         try {
-            $rdf.parse(asString, profileData, 'https://localhost/lytonepal', 'text/turtle');
+            $rdf.parse(asString, profileData, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html', 'text/turtle');
 	} catch (err) {
 	    return false;
 	}

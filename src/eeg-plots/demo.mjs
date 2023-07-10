@@ -14,7 +14,7 @@ import T4_Fp2_data from './t4_fp2_data.mjs';
 const [ Fp1, C3, O1, T3, Fz, Cz, Pz, Fp2, C4, O2, T4 ] = [
     'Fp1', 'C3', 'O1', 'T3', 'Fz', 'Cz', 'Pz', 'Fp2', 'C4', 'O2', 'T4'
 ].map ((name) => {
-    const id = `https://localhost/lytonepal#${name}`;
+    const id = `https://neonatool.github.io/slam/ontology/lytonepal.en.html#${name}`;
     return new ChannelType (id, name, true);
 });
 
@@ -25,7 +25,7 @@ const [ C3_Fp1, O1_C3, O1_T3, T3_Fp1, Cz_Fz, Pz_Cz, C4_Fp2, O2_C4, O2_T4, T4_Fp2
 ].map ((components) => {
     const [ anode, cathode ] = components;
     const name = `${anode.name}-${cathode.name}`;
-    const id = `https://localhost/lytonepal#${name}`;
+    const id = `https://neonatool.github.io/slam/ontology/lytonepal.en.html#${name}`;
     return new ChannelType (id, name, true, anode, cathode);
 });
 

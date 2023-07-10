@@ -9,7 +9,7 @@ export default class FilterDemo extends HTMLElement {
 	this.handler = (async (event) => {
 	    const model = event.model;
 	    const channels = await model.channels ();
-	    const start_dates = await model.find_object_dates ('<>', 'https://localhost/lytonepal#start-date');
+	    const start_dates = await model.find_object_dates ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date');
 	    const start_date = start_dates[0];
 	    const stop_date = new Date ((start_date - 0) + 20 * 1000);
 	    const low = 0.3;

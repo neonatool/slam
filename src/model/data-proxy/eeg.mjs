@@ -181,19 +181,19 @@ export default class EEG {
 	});
     }
     find_eeg_start_date () {
-	return this.find_object_dates ('<>', 'https://localhost/lytonepal#start-date');
+	return this.find_object_dates ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date');
     }
     find_eeg_sampling_frequency () {
-	return this.find_object_numbers ('<>', 'https://localhost/lytonepal#sampling-frequency');
+	return this.find_object_numbers ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#sampling-frequency');
     }
     find_eeg_channels () {
-	return this.find_objects ('<>', 'https://localhost/lytonepal#has-channel');
+	return this.find_objects ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-channel');
     }
     find_channel_type (channel) {
 	return this.find_objects (channel, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
     }
     find_channel_index (channel) {
-	return this.find_object_numbers (channel, 'https://localhost/lytonepal#column-number');
+	return this.find_object_numbers (channel, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#column-number');
     }
 }
 

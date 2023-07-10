@@ -16,7 +16,7 @@ const Adftool = AdftoolLoader ();
 // Response: { 'response': 'ok' } or { 'response': 'invalid data' }
 
 // 1 − Find objects:
-// Input: { 'request': 'objects', 'subject': '<>', 'predicate': 'https://localhost/lytonepal#start-date' } // Notice that subject is N3 and predicate is a simple URI
+// Input: { 'request': 'objects', 'subject': '<>', 'predicate': 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date' } // Notice that subject is N3 and predicate is a simple URI
 // Response: { 'response': ['"2000-01-01T00:00:00.000"^^xsd:dateTime', …] }
 
 // 2 − Find subjects:

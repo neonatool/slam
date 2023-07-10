@@ -186,7 +186,7 @@
     <script type="text/javascript">
       const element = document.getElementById('plot');
       const dest = document.getElementById('report-filter-changes');
-      const {low, high} = element.filter['https://localhost/lytonepal#C3-Fp1'];
+      const {low, high} = element.filter['https://neonatool.github.io/slam/ontology/lytonepal.en.html#C3-Fp1'];
       dest.appendChild (document.createTextNode (`The filter value for C3-Fp1 is currently the [${low} Hz, ${high} Hz] band-pass filter.`));
       element.addEventListener ('slam-select-filter', ev => {
 	  dest.replaceChildren ([]);
