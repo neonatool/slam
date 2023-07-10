@@ -21,13 +21,24 @@ code, plus HDF5.
 
 ## Build from source
 
-With rdflib (in Python) installed, the command `npm run build` will
-create the static data graph for rdflib/javascript, and bundle all the
-source code.
+With rdflib (in Python) installed, type the following commands:
 
-The command `npm run check` will check the interface protocol between
+
+```sh
+npm install
+npm run build
+npm run check
+
+# To run the application locally
+npm run serve
+```
+
+The first command creates the static data graph for rdflib/javascript, and
+bundle all the source code.
+
+The second command will check the interface protocol between
 workers.
 
-The command `npm run serve` will open a local static HTTP server to
-see the demo. We recommend visiting the `/generator` page first, to
-generate a simple example EEG in the ADF format.
+The last command will open a local static HTTP server to see the demo. We
+recommend visiting the `/generator` page first, to generate a simple example
+EEG in the ADF format.
