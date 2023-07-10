@@ -19,7 +19,7 @@ code, plus HDF5.
 - Python 3.X 
 - rdflib
 
-# Build from source
+## Build from source
 
 With rdflib (in Python) installed, the command `npm run build` will
 create the static data graph for rdflib/javascript, and bundle all the
