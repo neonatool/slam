@@ -30,8 +30,9 @@ for ontology in ['lytonepal.ttl', 'lytonepal-projects.ttl']:
                 elif isinstance(term, URIRef):
                     uri = str(term)
                     if uri.startswith(base + '#'):
-                        uri = ('https://localhost/'
+                        uri = ('https://neonatool.github.io/slam/ontology/'
                                + ontology.removesuffix('.ttl')
+                               + '.en.html'
                                + uri.removeprefix(base))
                     f.write('{}new $rdf.NamedNode({})'.format(sep, repr(uri)))
                 elif isinstance(term, Literal) and term.language is not None:
