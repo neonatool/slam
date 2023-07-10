@@ -2,6 +2,9 @@
 
 # SLAM
 
+This repository is a public mirror of our code hosted on our group:
+[](https://plmlab.math.cnrs.fr/neonatool).
+
 All the JavaScript source code can be built with esbuild, so that each
 demo and the main application (main page and both web worker types)
 are stand-alone browser-friendly JS files.
