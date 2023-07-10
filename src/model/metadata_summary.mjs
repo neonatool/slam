@@ -49,8 +49,8 @@ export default class MetadataSummary extends HTMLElement {
 	this.loadingPage.style.display = "block";
 	const model = event.model;
 	const [start_dates, sampling_frequencies] = await Promise.all ([
-	    model.find_object_dates ('<>', 'https://localhost/lytonepal#start-date'),
-	    model.find_object_numbers ('<>', 'https://localhost/lytonepal#sampling-frequency')
+	    model.find_object_dates ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date'),
+	    model.find_object_numbers ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#sampling-frequency')
 	]);
 	let message = `This EEG started ${start_dates[0]} and is sampled at ${sampling_frequencies[0]} Hz.`;
 	this.displayPage.replaceChildren ([]);

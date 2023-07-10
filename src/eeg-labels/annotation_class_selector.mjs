@@ -9,7 +9,7 @@ export default class AnnotationClassSelector extends HTMLElement {
 	legend.appendChild (document.createTextNode('Classe d’annotation :'));
 	options.appendChild (legend);
 	shadow.appendChild (options);
-	this._value = 'https://localhost/lytonepal#Annotation';
+	this._value = 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#Annotation';
     }
     get value () {
 	return this._value;

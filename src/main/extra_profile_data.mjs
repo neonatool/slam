@@ -38,7 +38,7 @@ export default class ExtraProfileData extends HTMLElement {
 	}
 	try {
             const parsed = new $rdf.Store ();
-	    $rdf.parse (existing, parsed, 'https://localhost/lytonepal', 'text/turtle');
+	    $rdf.parse (existing, parsed, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html', 'text/turtle');
 	    this._label.appendChild (document.createTextNode ('Extra profile data (Turtle):'));
 	} catch (err) {
 	    this._label.appendChild (document.createTextNode ('This is not valid Turtle for extra profile data:'));

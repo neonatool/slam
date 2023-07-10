@@ -38,11 +38,11 @@ export default class Slam extends HTMLElement {
 	    this._file_picker.style.display = 'none';
 	    this._wait.style.display = 'block';
 	    const displayed_channels = profile.channels ();
-	    const sampling_frequencies = await model.find_object_numbers ('<>', 'https://localhost/lytonepal#sampling-frequency');
+	    const sampling_frequencies = await model.find_object_numbers ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#sampling-frequency');
 	    console.assert (sampling_frequencies.length > 0, _ ('the EEG does not have a sampling frequency'), sampling_frequencies);
 	    const sampling_frequency = sampling_frequencies[0];
 	    this._plot.prepare (sampling_frequency, displayed_channels);
-	    const start_dates = await model.find_object_dates ('<>', 'https://localhost/lytonepal#start-date');
+	    const start_dates = await model.find_object_dates ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date');
 	    console.assert (start_dates.length > 0, _ ('the EEG does not have a start date'), start_dates);
 	    const start_date = start_dates[0];
 	    const existing_channels = await model.channels ();
@@ -84,7 +84,7 @@ export default class Slam extends HTMLElement {
 	    }
 	    await updateWindow (0, 20 * sampling_frequency);
 	    this._plot.move_to (0);
-	    const annotation_ids = await model.find_objects ('<>', 'https://localhost/lytonepal#has-annotation');
+	    const annotation_ids = await model.find_objects ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-annotation');
 	    for (const annotation_id of annotation_ids) {
 		const types = await model.find_objects (annotation_id, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
 		let label = null;
@@ -95,9 +95,9 @@ export default class Slam extends HTMLElement {
 		    }
 		}
 		if (label) {
-		    const ann_start = (await model.find_object_dates (annotation_id, 'https://localhost/lytonepal#start-date'))[0];
-		    const ann_duration = (await model.find_object_numbers (annotation_id, 'https://localhost/lytonepal#duration'))[0];
-		    const ann_location = await model.find_objects (annotation_id, 'https://localhost/lytonepal#location');
+		    const ann_start = (await model.find_object_dates (annotation_id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date'))[0];
+		    const ann_duration = (await model.find_object_numbers (annotation_id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#duration'))[0];
+		    const ann_location = await model.find_objects (annotation_id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#location');
 		    this._plot.add_annotation (annotation_id);
 		    this._plot.change_annotation_label (annotation_id, label);
 		    this._plot.change_annotation_start_index (annotation_id, ((ann_start - start_date) / 1000) * sampling_frequency);
@@ -147,14 +147,14 @@ export default class Slam extends HTMLElement {
 		if (start instanceof Date && typeof duration === 'number' && duration > 0 && typeof type === 'string' && type.startsWith ('http') && Array.isArray (location) && location.length > 0) {
 		    const id = `<#annotation-${start - 0}-${duration}>`; // FIXME: bof
 		    await model.insert (id, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', `<${type}>`);
-		    await model.insert (id, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', `<https://localhost/lytonepal#Epoch>`);
-		    await model.insert (id, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', `<https://localhost/lytonepal#Annotation>`);
-		    await model.insert (id, '<https://localhost/lytonepal#start-date>', `"${start.toISOString ()}"^^<http://www.w3.org/2001/XMLSchema#dateTime>`);
-		    await model.insert (id, '<https://localhost/lytonepal#duration>', `"${duration}"^^<http://www.w3.org/2001/XMLSchema#double>`);
-		    await model.insert (id, '<https://localhost/lytonepal#occurs-in>', `<>`);
-		    await model.insert ('<>', '<https://localhost/lytonepal#has-annotation>', id);
+		    await model.insert (id, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', `<https://neonatool.github.io/slam/ontology/lytonepal.en.html#Epoch>`);
+		    await model.insert (id, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', `<https://neonatool.github.io/slam/ontology/lytonepal.en.html#Annotation>`);
+		    await model.insert (id, '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date>', `"${start.toISOString ()}"^^<http://www.w3.org/2001/XMLSchema#dateTime>`);
+		    await model.insert (id, '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#duration>', `"${duration}"^^<http://www.w3.org/2001/XMLSchema#double>`);
+		    await model.insert (id, '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#occurs-in>', `<>`);
+		    await model.insert ('<>', '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-annotation>', id);
 		    for (const loc of location) {
-			await model.insert (id, '<https://localhost/lytonepal#location>', `<${loc}>`);
+			await model.insert (id, '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#location>', `<${loc}>`);
 		    }
 		    this._plot.add_annotation (id);
 		    this._plot.change_annotation_label (id, profile.label_for_annotation_class (new $rdf.NamedNode (type)));
@@ -198,13 +198,13 @@ export default class Slam extends HTMLElement {
 	    download_button.style.display = 'block';
 	    refresh_link ();
 	    console.log (_ ('Getting the report IDs…'));
-	    const report_ids = await model.find_objects ('<>', 'https://localhost/lytonepal#has-report');
+	    const report_ids = await model.find_objects ('<>', 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-report');
 	    console.log ('Report IDs:', report_ids);
 	    const reports = await Promise.all (report_ids.map (async id => {
-		const [start] = await model.find_object_dates (id, 'https://localhost/lytonepal#start-date');
-		const [duration] = await model.find_object_numbers (id, 'https://localhost/lytonepal#duration');
-		const [score] = await model.find_object_numbers (id, 'https://localhost/lytonepal#has-artifact-score');
-		const [disagreement] = await model.find_object_numbers (id, 'https://localhost/lytonepal#has-ensemble-disagreement');
+		const [start] = await model.find_object_dates (id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date');
+		const [duration] = await model.find_object_numbers (id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#duration');
+		const [score] = await model.find_object_numbers (id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-artifact-score');
+		const [disagreement] = await model.find_object_numbers (id, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-ensemble-disagreement');
 		return {
 		    'start': start,
 		    'duration': duration,

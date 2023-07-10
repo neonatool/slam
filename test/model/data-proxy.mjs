@@ -168,15 +168,15 @@ class Stub extends EEG {
 }
 
 const s = new Stub (async (subject, predicate) => {
-    if (subject === '<>' && predicate === 'https://localhost/lytonepal#start-date') {
+    if (subject === '<>' && predicate === 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#start-date') {
 	return ['<garbage>', '_:garbage', '"garbage"', '"2000-01-01T00:00:00.12345"^^<http://www.w3.org/2001/XMLSchema#dateTime>', '"256"^^<http://www.w3.org/2001/XMLSchema#integer>', '"256"^^<http://www.w3.org/2001/XMLSchema#double>'];
-    } else if (subject === '<>' && predicate === 'https://localhost/lytonepal#sampling-frequency') {
+    } else if (subject === '<>' && predicate === 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#sampling-frequency') {
 	return ['<garbage>', '_:garbage', '"garbage"', '"2000-01-01T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime>', '"256"^^<http://www.w3.org/2001/XMLSchema#integer>'];
-    } else if (subject === '<>' && predicate === 'https://localhost/lytonepal#has-channel') {
+    } else if (subject === '<>' && predicate === 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#has-channel') {
 	return ['<#channel-0>'];
     } else if (subject === '<#channel-0>' && predicate === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type') {
-	return ['<https://localhost/lytonepal#C3-Fp1>'];
-    } else if (subject === '<#channel-0>' && predicate === 'https://localhost/lytonepal#column-number') {
+	return ['<https://neonatool.github.io/slam/ontology/lytonepal.en.html#C3-Fp1>'];
+    } else if (subject === '<#channel-0>' && predicate === 'https://neonatool.github.io/slam/ontology/lytonepal.en.html#column-number') {
 	return ['<garbage>', '_:garbage', '"garbage"', '"2000-01-01T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime>', '"42"^^<http://www.w3.org/2001/XMLSchema#integer>'];
     } else {
 	throw `Unexpected query: ${subject}, ${predicate}`;
@@ -210,7 +210,7 @@ Promise.all ([
     ])
 }).then ((results) => {
     const [tp, index] = results;
-	if (tp.length != 1 || tp[0] != '<https://localhost/lytonepal#C3-Fp1>') {
+	if (tp.length != 1 || tp[0] != '<https://neonatool.github.io/slam/ontology/lytonepal.en.html#C3-Fp1>') {
 	    throw 'Invalid channel type';
 	}
 	if (index.length != 1 || index[0] != 42) {
