@@ -1,6 +1,6 @@
-# SLAM - Core
+![Static Badge](https://img.shields.io/badge/demo--gh-slam-blue?link=https%3A%2F%2Fneonatool.github.io%2Fslam%2F)
 
-# How to build
+# SLAM
 
 All the JavaScript source code can be built with esbuild, so that each
 demo and the main application (main page and both web worker types)
@@ -13,6 +13,13 @@ according to rdflib/javascript (with tojs.py).
 
 The adftool module is the emscrpiten compilation of the adftool source
 code, plus HDF5.
+
+## Requirements
+
+- Python 3.X 
+- rdflib
+
+# Build from source
 
 With rdflib (in Python) installed, the command `npm run build` will
 create the static data graph for rdflib/javascript, and bundle all the
