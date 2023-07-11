@@ -1,6 +1,7 @@
 import { Model } from '../model.mjs';
 import ProfileChooser from './profile_chooser.mjs';
 import ExtraProfileData from './extra_profile_data.mjs';
+import Profile from './profile.mjs';
 import _ from '../gettext.mjs';
 
 export default class FilePicker extends HTMLElement {
@@ -37,7 +38,16 @@ export default class FilePicker extends HTMLElement {
 	});
 	container.appendChild (submit);
 	const extra = document.createElement ('slam-extra-profile-data-editor');
-	extra.addEventListener ('slam-extra-profile-data', () => profile_chooser.reload ());
+	extra.addEventListener ('slam-extra-profile-data', (ev) => {
+	    const ok = Profile.reload_profile_data (ev.data);
+	    profile_chooser.reload ();
+	    if (ok) {
+	        extra.mark_valid ();
+	    } else {
+		extra.warn_invalid ();
+	    }
+	});
+	extra.dispatch ();
 	container.appendChild (extra);
 	shadow.appendChild (container);
     }

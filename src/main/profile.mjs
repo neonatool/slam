@@ -6,8 +6,7 @@ import _ from '../gettext.mjs';
 
 let profileData = staticData;
 
-function reloadProfileData () {
-    const asString = (localStorage && localStorage.getItem ('extra-profile-data')) || null;
+function reloadProfileData (asString) {
     profileData = new $rdf.Store ();
     profileData.addAll (staticData.statements);
     if (asString) {
@@ -134,8 +133,8 @@ export default class Profile {
     label () {
 	return staticLabel (this.language, this.id);
     }
-    static reload_profile_data () {
-        return reloadProfileData ();
+    static reload_profile_data (data) {
+        return reloadProfileData (data);
     }
 }
 

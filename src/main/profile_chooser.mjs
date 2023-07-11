@@ -18,7 +18,6 @@ export default class ProfileChooser extends HTMLElement {
     }
     reload () {
 	this._selector.replaceChildren([]);
-        Profile.reload_profile_data ();
 	for (const p of Profile.list ()) {
 	    const option = document.createElement ('option');
 	    const text = document.createTextNode (p.label ());

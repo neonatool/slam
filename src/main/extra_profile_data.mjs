@@ -1,4 +1,5 @@
 import * as $rdf from 'rdflib';
+import _ from '../gettext.mjs';
 
 export default class ExtraProfileData extends HTMLElement {
     // This is a widget bound to local storage, that will let the user
@@ -18,36 +19,34 @@ export default class ExtraProfileData extends HTMLElement {
 	entry.setAttribute ('rows', '20');
 	entry.setAttribute ('cols', '80');
 	this._entry = entry;
-	this.reload ();
+	const ls = localStorage;
+	if (!ls) {
+	    throw new Error(_ ('Local storage is not available'));
+	}
+        const existing = localStorage.getItem ('extra-profile-data');
+	entry.replaceChildren([]);
+	if (existing) {
+	    entry.appendChild (document.createTextNode (existing));
+	}
 	container.appendChild (entry);
 	shadow.appendChild (container);
-	entry.addEventListener ('input', () => {
-	    if (localStorage) {
-	        localStorage.setItem ('extra-profile-data', entry.value);
-		this.reload ();
-	    }
+	this.dispatch = () => {
+	    localStorage.setItem ('extra-profile-data', entry.value);
 	    const reloadEvent = new CustomEvent ('slam-extra-profile-data');
+	    reloadEvent.data = entry.value;
 	    this.dispatchEvent (reloadEvent);
-	});
+	};
+	entry.addEventListener ('input', () => this.dispatch ());
+	this.mark_valid ();
+	this.dispatch ();
     }
-    reload () {
-        const existing = localStorage && localStorage.getItem ('extra-profile-data');
-	this._label.replaceChildren ([]);
-	this._entry.replaceChildren([]);
-	if (existing) {
-	    this._entry.appendChild (document.createTextNode (existing));
-	}
-        if (existing && existing.length > 0) {
-            try {
-                const parsed = new $rdf.Store ();
-                $rdf.parse (existing, parsed, 'https://neonatool.github.io/slam/ontology/lytonepal.en.html', 'text/turtle');
-                this._label.appendChild (document.createTextNode ('Extra profile data (Turtle):'));
-            } catch (err) {
-                this._label.appendChild (document.createTextNode ('This is not valid Turtle for extra profile data:'));
-            }
-        } else {
-            this._label.appendChild (document.createTextNode ('You can add extra profile data in the Turtle format:'));
-        }
+    warn_invalid () {
+        this._label.replaceChildren([]);
+	this._label.appendChild (document.createTextNode(_ ('Extra profile data in the Turtle format (INVALID yet):')));
+    }
+    mark_valid () {
+        this._label.replaceChildren([]);
+	this._label.appendChild (document.createTextNode(_ ('Extra profile data in the Turtle format:')));
     }
 }
 
